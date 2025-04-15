@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{minted}
+% \usemintedstyle{xcode}
+
+\begin{document}
+
+% \begin{minted}[linenos,frame=single,texcomments,escapeinside=||]{msc}
+\begin{minted}[linenos,breaklines]{'msc.py:MSCLexer -x'}
+# Long prng::uuidToSeed(String uuid, Long modulo)
+
+@using prng
+@player Hello?
+
+@define Long seed = 0l
+
+@define String hex = "0123456789abcdef"
+@define String test_string = "seed is {{seed}}"
+@define Int j = 0
+
+@var uuid = uuid.replace("-", "").toLowerCase()
+@define Int l = uuid.length()-9
+
+@for Int i in list::range(0,l)
+    @player loop iteration {{i}}
+    @var j = l-i-1
+    @var seed = (seed + hex.indexOf(uuid.substring(j, j+1))*pow(16l, i)) % modulo
+@done
+
+@define Box box = Box()
+
+@return seed
+\end{minted}
+
+\end{document}
