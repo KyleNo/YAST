@@ -1,0 +1,21 @@
+[project]
+name = "msc_pygment"
+version = "0.1.0"
+description = "A Pygments plugin lexer"
+requires-python = ">=3.8"
+dependencies = ["pygments"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.hatch.build.targets.wheel]
+packages = ["msc_pygment"]
+
+[project.entry-points."pygments.lexers"]
+msc2 = "msc_pygment.msc_lexer:MscLexer"
+
+[project.entry-points."pygments.styles"]
+msc_light = "msc_pygment.msc_style:MscLight"
+msc_dark = "msc_pygment.msc_style:MscDark"
+

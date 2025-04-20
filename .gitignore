@@ -1,3 +1,5 @@
+.latexmkrc
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -482,3 +484,22 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# other
+
+*:Zone.Identifier
+
+*.pdf
+*.html
+*.txt
+
+path
+*.pygstyle
+
+generate_style_file.py
+
+@.tex
+msc_style.py
+tcb_test.tex
+test.msc
+msc.py

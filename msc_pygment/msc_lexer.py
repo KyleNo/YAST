@@ -1,9 +1,9 @@
 from pygments.lexer import RegexLexer, bygroups
 from pygments.token import Keyword, Name, String, Number, Operator, Text, Punctuation, Comment
 
-class MSCLexer(RegexLexer):
-    name = 'MSC'
-    aliases = ['msc']
+class MscLexer(RegexLexer):
+    name = 'MSC2'
+    aliases = ['msc2']
     filenames = ['*.msc']
 
     tokens = {
@@ -15,12 +15,18 @@ class MSCLexer(RegexLexer):
             (r'"', String.Double, 'string'),
 
             # Match @player, @bypass, @command, @console followed by unquoted string
-            (r'(\s*)(@(?:player|bypass|command|console))(\s+)', bygroups(Text, Keyword, Text), 'unquoted_string'),
+            (r'(@(?:player|bypass|command|console))(\s+)', bygroups(Keyword, Text), 'unquoted_string'),
 
-            (r'@(define|var)\b', Keyword.Declaration),
+            (r'(@define|@var)\b', Keyword.Declaration),
+
+            (r'(@elseif)', Keyword.Control),
+            (r'(@(?:if|fi|else|for|done|return))', Keyword.Control),
 
             # Keywords (mostly control, some need special treatment)
-            (r'@(cancel|chatscript|cooldown|delay|done|else|elseif|fast|fi|for|global_cooldown|if|prompt|return|slow|using)\b', Keyword.Control),
+            #(r'@(cancel|chatscript|cooldown|delay|done|else|elseif|fast|fi|for|global_cooldown|if|prompt|return|slow|using)\b', Keyword.Control),
+            # All @commands (any word after @)
+            (r'(@\w+)', bygroups(Keyword)),
+
 
             # Numeric literals
             (r'(?<!\w)(\d+\.\d*[Dd]?)(?!\w)', Number.Float),
@@ -34,7 +40,7 @@ class MSCLexer(RegexLexer):
             # (r'<#[^#][^\n]*?>', Name.Tag),
 
             # Operators
-            (r'[\+\-\*/=!\&\|\%\^]|\|\||&&', Operator),
+            (r'[\+\-\*/=!\&\|\%\^<>]|\|\||&&', Operator),
 
             # Punctuation
             (r'[.,\(\)\[\]\{\}]|\:\:', Punctuation),

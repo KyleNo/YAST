@@ -1,15 +1,157 @@
 \documentclass{article}
-\usepackage{minted}
-% \usemintedstyle{xcode}
+\usepackage[cache=false]{minted}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{ifthen}
+\usepackage[most, minted]{tcolorbox}
+
+% \immediate\write18{which pygmentize > pygmentize-path.txt}
+% \pagecolor{gray}
+% \color{white}
+\definecolor{bgdark}{HTML}{2E3440}  % Nord-ish dark gray-blue
+\definecolor{fgtext}{HTML}{ECEFF4} % Near-white
+\definecolor{arrowcolor}{HTML}{88C0D0}
+\definecolor{darkline}{HTML}{4C566A}
+
+\definecolor{codebg}{HTML}{2E3440}
+\definecolor{codelinebg}{HTML}{3B4252}
+\definecolor{codelinefg}{HTML}{88C0D0}
+\definecolor{codefg}{HTML}{ECEFF4}
+\definecolor{arrowdark}{HTML}{88C0D0}
+\definecolor{arrowlight}{HTML}{333333}
+% \definecolor{bglight}{rgb}{0.99,1,0.99}
+\definecolor{bglight}{HTML}{FAFAFA}
+
+% \newtcolorbox{CodeBlock}[1][]{
+%   listing engine=minted,
+%   minted style=msc_light,
+%   colback=codebg,
+%   colframe=black!80,
+%   colupper=codefg,
+%   listing only,
+%   minted language=msc2,
+%   minted options={
+%     linenos,
+%     numbersep=0pt,
+%     breaklines,
+%     breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
+%     fontsize=\small,
+%     numberstyle=\color{codelinefg}\scriptsize,
+%     gobble=0
+%   },
+%   enhanced,
+%   sharp corners,
+%   boxsep=0pt,
+%   left=0pt,
+%   right=0pt,
+%   top=4pt,
+%   bottom=4pt,
+%   overlay={
+%     \begin{tcbclipinterior}
+%       \fill[codelinebg] (interior.north west) rectangle ([xshift=2em]interior.south west);
+%     \end{tcbclipinterior}
+%   },
+%   #1
+% }
+
+\newboolean{darkmodeon}
+\setboolean{darkmodeon}{false}   % <-- set to false for light mode
+
+\ifthenelse{\boolean{darkmodeon}}
+{\newtcblisting{msccode}{
+  minted language=msc2,
+  minted style=msc_dark,
+  minted options={
+      fontsize=\normalsize,
+      linenos,
+      numbersep=1mm,
+      breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
+      breaklines=true,
+  },% <-- put other minted options inside the brackets
+  overlay={%
+      \begin{tcbclipinterior}
+          \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+  },
+  colback=bglight,
+  colframe=black!70,
+  before skip=5pt plus 2pt,
+  breakable,
+  enhanced,% <-- put other tcolorbox options here
+  listing only
+  }}
+% Light Mode
+{\newtcblisting{msccode}{
+  minted language=msc2,
+  minted style=msc_light,
+  minted options={
+      fontsize=\normalsize,
+      linenos,
+      numbersep=1mm,
+      breaksymbolleft=\textcolor{arrowlight}{\tiny$\hookrightarrow$},
+      breaklines=true,
+  },% <-- put other minted options inside the brackets
+  overlay={%
+      \begin{tcbclipinterior}
+          \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+  },
+  colback=bglight,
+  colframe=black!70,
+  before skip=5pt plus 2pt,
+  breakable,
+  enhanced,% <-- put other tcolorbox options here
+  listing only
+  }}
+
+
+\renewcommand{\theFancyVerbLine}{\ttfamily
+  \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}
+
+\ifthenelse{\boolean{darkmodeon}}
+{\renewcommand{\theFancyVerbLine}{\ttfamily
+\textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
+{\renewcommand{\theFancyVerbLine}{\ttfamily
+\textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
+
+% \ifthenelse{\boolean{darkmodeon}}
+% {\setminted{
+%     bgcolor=bgdark,
+%     breaksymbolleft=\textcolor{arrowcolor}{\tiny$\hookrightarrow$},
+%     fontfamily=tt,
+%     fontsize=\small,
+%     linenos=true,
+%     breaklines=true,
+%     style=msc_dark,
+%     baselinestretch=1.1,
+%     numbersep=4pt,
+%     xleftmargin=2pt,
+%     xrightmargin=2pt
+% }}
+% {\setminted{
+%     fontfamily=tt,
+%     fontsize=\small,
+%     linenos=true,
+%     breaklines=true,
+%     style=msc_light,
+%     baselinestretch=1.1,
+%     xleftmargin=2pt,
+%     xrightmargin=2pt
+% }}
 
 \begin{document}
+    
 
 % \begin{minted}[linenos,frame=single,texcomments,escapeinside=||]{msc}
-\begin{minted}[linenos,breaklines]{'msc.py:MSCLexer -x'}
+% \begin{minted}[linenos,breaklines]{'msc.py:MSCLexer -x'}
+% \begin{minted}{msc2}
+\begin{msccode}
 # Long prng::uuidToSeed(String uuid, Long modulo)
 
 @using prng
-@player Hello?
+@player Hello? test fdsf
 
 @define Long seed = 0l
 
@@ -23,12 +165,15 @@
 @for Int i in list::range(0,l)
     @player loop iteration {{i}}
     @var j = l-i-1
-    @var seed = (seed + hex.indexOf(uuid.substring(j, j+1))*pow(16l, i)) % modulo
+    @var seed = (seed + hex.indexOf(uuid.substring(j, j+1)) * pow(16l, i)) % modulo
 @done
 
 @define Box box = Box()
 
 @return seed
-\end{minted}
+\end{msccode}
+% \end{minted}
+
+$$\hookrightarrow$$
 
 \end{document}
