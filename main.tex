@@ -21,43 +21,12 @@
 \definecolor{codefg}{HTML}{ECEFF4}
 \definecolor{arrowdark}{HTML}{88C0D0}
 \definecolor{arrowlight}{HTML}{333333}
-% \definecolor{bglight}{rgb}{0.99,1,0.99}
 \definecolor{bglight}{HTML}{FAFAFA}
 \definecolor{bgdark}{HTML}{242424}
 \definecolor{linenobgdark}{HTML}{2A2D2E}
 \definecolor{borderdark}{HTML}{2A2D2E}
 
-% \newtcolorbox{CodeBlock}[1][]{
-%   listing engine=minted,
-%   minted style=msc_light,
-%   colback=codebg,
-%   colframe=black!80,
-%   colupper=codefg,
-%   listing only,
-%   minted language=msc2,
-%   minted options={
-%     linenos,
-%     numbersep=0pt,
-%     breaklines,
-%     breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
-%     fontsize=\small,
-%     numberstyle=\color{codelinefg}\scriptsize,
-%     gobble=0
-%   },
-%   enhanced,
-%   sharp corners,
-%   boxsep=0pt,
-%   left=0pt,
-%   right=0pt,
-%   top=4pt,
-%   bottom=4pt,
-%   overlay={
-%     \begin{tcbclipinterior}
-%       \fill[codelinebg] (interior.north west) rectangle ([xshift=2em]interior.south west);
-%     \end{tcbclipinterior}
-%   },
-%   #1
-% }
+
 
 \newboolean{darkmodeon}
 \setboolean{darkmodeon}{true}   % <-- set to false for light mode
@@ -110,6 +79,53 @@
   listing only
   }}
 
+\ifthenelse{\boolean{darkmodeon}}
+  % Dark Mode
+  {\newtcblisting{nmscode}{
+    minted language=nms,
+    minted style=msc_dark,
+    minted options={
+        fontsize=\normalsize,
+        linenos,
+        numbersep=1mm,
+        breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
+        breaklines=true,
+    },% <-- put other minted options inside the brackets
+    overlay={%
+        \begin{tcbclipinterior}
+            \fill[linenobgdark] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+        \end{tcbclipinterior}
+    },
+    colback=bgdark,
+    colframe=borderdark,
+    before skip=5pt plus 2pt,
+    breakable,
+    enhanced,% <-- put other tcolorbox options here
+    listing only
+    }}
+  % Light Mode
+  {\newtcblisting{nmscode}{
+    minted language=nms,
+    minted style=msc_light,
+    minted options={
+        fontsize=\normalsize,
+        linenos,
+        numbersep=1mm,
+        breaksymbolleft=\textcolor{arrowlight}{\tiny$\hookrightarrow$},
+        breaklines=true,
+    },% <-- put other minted options inside the brackets
+    overlay={%
+        \begin{tcbclipinterior}
+            \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+        \end{tcbclipinterior}
+    },
+    colback=bglight,
+    colframe=black!70,
+    before skip=5pt plus 2pt,
+    breakable,
+    enhanced,% <-- put other tcolorbox options here
+    listing only
+}}
 
 % \renewcommand{\theFancyVerbLine}{\ttfamily
 %   \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}
@@ -120,42 +136,13 @@
 {\renewcommand{\theFancyVerbLine}{\ttfamily
 \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
 
-% \ifthenelse{\boolean{darkmodeon}}
-% {\setminted{
-%     bgcolor=bgdark,
-%     breaksymbolleft=\textcolor{arrowcolor}{\tiny$\hookrightarrow$},
-%     fontfamily=tt,
-%     fontsize=\small,
-%     linenos=true,
-%     breaklines=true,
-%     style=msc_dark,
-%     baselinestretch=1.1,
-%     numbersep=4pt,
-%     xleftmargin=2pt,
-%     xrightmargin=2pt
-% }}
-% {\setminted{
-%     fontfamily=tt,
-%     fontsize=\small,
-%     linenos=true,
-%     breaklines=true,
-%     style=msc_light,
-%     baselinestretch=1.1,
-%     xleftmargin=2pt,
-%     xrightmargin=2pt
-% }}
-
 \begin{document}
     
-
-% \begin{minted}[linenos,frame=single,texcomments,escapeinside=||]{msc}
-% \begin{minted}[linenos,breaklines]{'msc.py:MSCLexer -x'}
-% \begin{minted}{msc2}
 \begin{msccode}
 # Long prng::uuidToSeed(String uuid, Long modulo)
 
 @using prng
-@player Hello? test fdsafs
+@player Hello? test
 
 @define Long seed = 0l
 
@@ -184,8 +171,30 @@
 
 @return seed
 \end{msccode}
-% \end{minted}
 
-% $$\hookrightarrow$$
+\begin{nmscode}
+@namespace myNamespace
+	# myFunc documentation
+	Double myFunc(Player player, Item item)
+	myVoidFunc()
+	# myVar documentation
+	Double myVar
+
+	# myClass documentation
+	@class MyClass
+		# constructor
+		MyClass(Double value)
+		# another constructor
+		MyClass(Double value1, Double value2)
+		# field
+		Double x
+		# getter
+		Double getX()
+		# setter
+		setX(Double newValue)
+		myNamespace::MyClass getMyClass()
+	@endclass
+@endnamespace
+\end{nmscode}
 
 \end{document}

@@ -1,0 +1,22 @@
+@namespace myNamespace
+	# myFunc documentation
+	Double myFunc(Player player, Item item)
+	myVoidFunc()
+	# myVar documentation
+	Double myVar
+
+	# myClass documentation
+	@class MyClass
+		# constructor
+		MyClass(Double value)
+		# another constructor
+		MyClass(Double value1, Double value 2)
+		# field
+		Double x
+		# getter
+		Double getX()
+		# setter
+		setX(Double newValue)
+		myNamespace::MyClass getMyClass()
+	@endclass
+@endnamespace
