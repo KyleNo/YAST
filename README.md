@@ -1,5 +1,5 @@
 # YAST
-Yet Another Scripting Tutorial tex build. Uses Tex Live and Pygment.
+Yet Another Scripting Tetorial tex build. Uses Tex Live and Pygment.
 
 ## Installation
 The following assumes you are using linux or WSL.

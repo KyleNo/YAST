@@ -1,4 +1,5 @@
-\documentclass{article}
+\documentclass[oneside]{book}
+\usepackage[margin=1.2in]{geometry}
 \usepackage[cache=false]{minted}
 \usepackage{tikz}
 \usepackage[utf8]{inputenc}
@@ -6,6 +7,23 @@
 \usepackage{amssymb}
 \usepackage{ifthen}
 \usepackage[most, minted]{tcolorbox}
+
+\usepackage{a4wide}
+\usepackage{array}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\renewcommand{\arraystretch}{1.2}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{blindtext}
+\usepackage{tocloft}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{vhistory}
 
 % \immediate\write18{which pygmentize > pygmentize-path.txt}
 % \pagecolor{gray}
@@ -136,65 +154,281 @@
 {\renewcommand{\theFancyVerbLine}{\ttfamily
 \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
 
+%%% Preface environment
+% ===== Define abstract environment =====
+\newcommand{\prefacename}{Preface}
+\newenvironment{preface}{
+    \vspace*{\stretch{2}}
+    {\noindent \bfseries \Huge \prefacename}
+    \begin{center}
+        \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+        \thispagestyle{plain}
+    \end{center}%
+}
+{\vspace*{\stretch{5}}}
+
+%%%%% END OF PREAMBLE %%%%%
+
 \begin{document}
-    
-\begin{msccode}
-# Long prng::uuidToSeed(String uuid, Long modulo)
 
-@using prng
-@player Hello? test
+\pagestyle{empty}
 
-@define Long seed = 0l
+\title{Yet Another Scripting Tetorial \\
+        \large For Minr Scripts 2.4.7}
+\author{Tetration}
+\date{\vhCurrentDate \\Version \vhCurrentVersion}
+\maketitle
 
-@define Boolean boo3 = true
+% \shipout\null
 
-@var myNamespace::myObj.myMethod(0, 2, 3)
+\frontmatter
+\pagenumbering{Roman} 
 
-@var myNamespace::myFunction("test")
+\begin{preface}
+\section{Why is This a Thing?}
+\blindtext
 
-@var seed = normalize(seed).toLowerCase().length()
+\section{Who is This For?}
+\blindtext
 
-@define String hex = "0123456789abcdef"
-@define String test_string = "seed is {{seed}}"
-@define Int j = 0
+\section{What Will This Cover?}
+\blindtext
+\end{preface}
 
-@var uuid = uuid.replace("-", "").toLowerCase()
-@define Int l = uuid.length()-9
 
-@for Int i in list::range(0,l)
-    @player loop iteration {{i}}
-    @var j = l-i-1
-    @var seed = (seed + hex.indexOf(uuid.substring(j, j+1)) * pow(16l, i)) % modulo
-@done
+\tableofcontents
 
-@define Box box = Box()
 
-@return seed
-\end{msccode}
+\mainmatter
+\pagestyle{plain}
 
-\begin{nmscode}
-@namespace myNamespace
-	# myFunc documentation
-	Double myFunc(Player player, Item item)
-	myVoidFunc()
-	# myVar documentation
-	Double myVar
+\chapter{Environment}
+\blindtext
 
-	# myClass documentation
-	@class MyClass
-		# constructor
-		MyClass(Double value)
-		# another constructor
-		MyClass(Double value1, Double value2)
-		# field
-		Double x
-		# getter
-		Double getX()
-		# setter
-		setX(Double newValue)
-		myNamespace::MyClass getMyClass()
-	@endclass
-@endnamespace
-\end{nmscode}
+\section{Welcome to the Test Server!}
+\blindtext
+
+\section{Hastebin}
+\blindtext
+
+\section{Visual Studio Code}
+\blindtext
+
+\section{Source Control}
+\blindtext
+
+\section{Tips}
+\blindtext
+
+\section{Summary}
+\blindtext
+
+\chapter{The Basics}
+
+\section{Triggers}
+\blindtext
+
+\section{What is a Script?}
+\blindtext
+
+\section{Running Commands}
+\blindtext
+
+\section{Printing to the Player}
+\blindtext
+
+\section{Delay}
+\blindtext
+
+\section{Values and Types}
+\blindtext
+
+\section{Expressions}
+\blindtext
+
+\section{Variables}
+\blindtext
+
+\section{Summary}
+\blindtext
+
+\section{Exercises}
+\blindtext
+
+\chapter{Core Topics}
+\blindtext
+
+\section{Lists}
+
+\section{Control Flow}
+\blindtext
+
+\section{Namespaces}
+\blindtext
+
+\section{Variable Qualifiers}
+\blindtext
+
+\section{Functions}
+\blindtext
+
+\section{Meta Operators}
+\blindtext
+
+\section{Summary}
+\blindtext
+
+\section{Exercises}
+\blindtext
+
+\chapter{Advanced Topics}
+\blindtext
+
+\section{User-Defined Types}
+\blindtext
+
+\section{Schematics}
+\blindtext
+
+\section{Chat Scripts}
+\blindtext
+
+\section{More about Lists and Strings}
+\blindtext
+
+\section{Built-in Namespaces}
+\blindtext
+
+\section{Built-in Types}
+\blindtext
+
+\section{Complexity}
+\blindtext
+
+\section{Best Practices}
+\blindtext
+
+\section{Learn to Learn}
+\blindtext
+
+\chapter{Special Topics}
+\blindtext
+
+\section{Block Displays}
+\blindtext
+
+\section{Animating Entities}
+\blindtext
+
+\section{Abstraction}
+\blindtext
+
+\section{Books}
+\blindtext
+
+\section{Scoreboards}
+\blindtext
+
+\section{Boss Bars}
+\blindtext
+
+\section{Importing Scripts with Scripts}
+\blindtext
+
+\section{Execute}
+\blindtext
+
+\section{Resource Packs}
+\blindtext
+
+\section{Debug Tools}
+\blindtext
+
+\section{Recursion}
+\blindtext
+
+\section{Attributes}
+\blindtext
+
+\section{Summary}
+\blindtext
+
+\section{Exercises}
+\blindtext
+
+\chapter{Recipes}
+
+\section{Stateful Puzzles}
+\blindtext
+
+\section{Search Maps}
+\blindtext
+
+\section{Managing Heads}
+\blindtext
+
+
+% \begin{msccode}
+% # Long prng::uuidToSeed(String uuid, Long modulo)
+
+% @using prng
+% @player Hello? test
+
+% @define Long seed = 0l
+
+% @define Boolean boo3 = true
+
+% @var myNamespace::myObj.myMethod(0, 2, 3)
+
+% @var myNamespace::myFunction("test")
+
+% @var seed = normalize(seed).toLowerCase().length()
+
+% @define String hex = "0123456789abcdef"
+% @define String test_string = "seed is {{seed}}"
+% @define Int j = 0
+
+% @var uuid = uuid.replace("-", "").toLowerCase()
+% @define Int l = uuid.length()-9
+
+% @for Int i in list::range(0,l)
+%     @player loop iteration {{i}}
+%     @var j = l-i-1
+%     @var seed = (seed + hex.indexOf(uuid.substring(j, j+1)) * pow(16l, i)) % modulo
+% @done
+
+% @define Box box = Box()
+
+% @return seed
+% \end{msccode}
+
+% \begin{nmscode}
+% @namespace myNamespace
+% 	# myFunc documentation
+% 	Double myFunc(Player player, Item item)
+% 	myVoidFunc()
+% 	# myVar documentation
+% 	Double myVar
+
+% 	# myClass documentation
+% 	@class MyClass
+% 		# constructor
+% 		MyClass(Double value)
+% 		# another constructor
+% 		MyClass(Double value1, Double value2)
+% 		# field
+% 		Double x
+% 		# getter
+% 		Double getX()
+% 		# setter
+% 		setX(Double newValue)
+% 		myNamespace::MyClass getMyClass()
+% 	@endclass
+% @endnamespace
+% \end{nmscode}
+
+\begin{versionhistory}
+    \vhEntry{1.0}{\today}{Tetration}{First Publication}
+\end{versionhistory}
 
 \end{document}
