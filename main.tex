@@ -23,6 +23,9 @@
 \definecolor{arrowlight}{HTML}{333333}
 % \definecolor{bglight}{rgb}{0.99,1,0.99}
 \definecolor{bglight}{HTML}{FAFAFA}
+\definecolor{bgdark}{HTML}{242424}
+\definecolor{linenobgdark}{HTML}{2A2D2E}
+\definecolor{borderdark}{HTML}{2A2D2E}
 
 % \newtcolorbox{CodeBlock}[1][]{
 %   listing engine=minted,
@@ -57,9 +60,10 @@
 % }
 
 \newboolean{darkmodeon}
-\setboolean{darkmodeon}{false}   % <-- set to false for light mode
+\setboolean{darkmodeon}{true}   % <-- set to false for light mode
 
 \ifthenelse{\boolean{darkmodeon}}
+% Dark Mode
 {\newtcblisting{msccode}{
   minted language=msc2,
   minted style=msc_dark,
@@ -72,11 +76,11 @@
   },% <-- put other minted options inside the brackets
   overlay={%
       \begin{tcbclipinterior}
-          \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+          \fill[linenobgdark] (frame.south west) rectangle ([xshift=5mm]frame.north west);
       \end{tcbclipinterior}
   },
-  colback=bglight,
-  colframe=black!70,
+  colback=bgdark,
+  colframe=borderdark,
   before skip=5pt plus 2pt,
   breakable,
   enhanced,% <-- put other tcolorbox options here
@@ -107,12 +111,12 @@
   }}
 
 
-\renewcommand{\theFancyVerbLine}{\ttfamily
-  \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}
+% \renewcommand{\theFancyVerbLine}{\ttfamily
+%   \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}
 
 \ifthenelse{\boolean{darkmodeon}}
 {\renewcommand{\theFancyVerbLine}{\ttfamily
-\textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
+\textcolor[HTML]{707880}{\small{\arabic{FancyVerbLine}}}}}
 {\renewcommand{\theFancyVerbLine}{\ttfamily
 \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
 
@@ -151,9 +155,17 @@
 # Long prng::uuidToSeed(String uuid, Long modulo)
 
 @using prng
-@player Hello? test fdsf
+@player Hello? test fdsafs
 
 @define Long seed = 0l
+
+@define Boolean boo3 = true
+
+@var myNamespace::myObj.myMethod(0, 2, 3)
+
+@var myNamespace::myFunction("test")
+
+@var seed = normalize(seed).toLowerCase().length()
 
 @define String hex = "0123456789abcdef"
 @define String test_string = "seed is {{seed}}"
@@ -174,6 +186,6 @@
 \end{msccode}
 % \end{minted}
 
-$$\hookrightarrow$$
+% $$\hookrightarrow$$
 
 \end{document}

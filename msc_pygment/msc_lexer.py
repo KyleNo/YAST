@@ -1,4 +1,4 @@
-from pygments.lexer import RegexLexer, bygroups
+from pygments.lexer import RegexLexer, bygroups, using, this
 from pygments.token import Keyword, Name, String, Number, Operator, Text, Punctuation, Comment
 
 class MscLexer(RegexLexer):
@@ -19,8 +19,10 @@ class MscLexer(RegexLexer):
 
             (r'(@define|@var)\b', Keyword.Declaration),
 
+            (r'(@using)(\s+)(\w+)', bygroups(Keyword, Text, Name.Namespace)),
+
             (r'(@elseif)', Keyword.Control),
-            (r'(@(?:if|fi|else|for|done|return))', Keyword.Control),
+            (r'(@(?:if|fi|else|for|done|return)|in)', Keyword.Control),
 
             # Keywords (mostly control, some need special treatment)
             #(r'@(cancel|chatscript|cooldown|delay|done|else|elseif|fast|fi|for|global_cooldown|if|prompt|return|slow|using)\b', Keyword.Control),
@@ -36,8 +38,28 @@ class MscLexer(RegexLexer):
             # Types
             (r'(?<!\w)(String|Int|Long|Float|Double|Boolean|Player|Entity|Block|Item|Location|BlockLocation|Position|Vector2|BlockVector2|Vector3|BlockVector3|Region)(?!\w)', Name.Tag),
 
-            # Includes
-            # (r'<#[^#][^\n]*?>', Name.Tag),
+            # Namespaced object method call
+            (r'\b([a-zA-Z]\w*)(::)([a-zA-Z_]\w*)(\.)([a-z]\w*)(\s*)(\()', 
+            bygroups(Name.Namespace, Punctuation, Name.Variable, Punctuation, Name.Function, Text, Punctuation)),
+
+            # Namespaced function call
+            (r'\b([a-zA-Z]\w*)(::)([a-z]\w*)(\s*)(\()', 
+            bygroups(Name.Namespace, Punctuation, Name.Function, Text, Punctuation)),
+
+            # Regular method call
+            (r'\b([a-zA-Z_]\w*)(\.)([a-z]\w*)(\s*)(\()', 
+            bygroups(Name.Variable, Punctuation, Name.Function, Text, Punctuation)),
+
+            # Function call
+            (r'\b([a-z]\w*)(\s*)(\()', 
+            bygroups(Name.Function, Text, Punctuation)),
+
+            # Optional: fallback chained method parsing
+            (r'\b([a-z]\w*)((?:\.[a-z]\w*\s*\(\))*)', 
+            bygroups(Name.Variable, using(this))),
+
+            (r'\b([a-zA-Z]\w*)(::)([a-zA-Z_]\w*)((?:\.[a-z]\w*\s*\(\))*)', 
+            bygroups(Name.Namespace, Punctuation, Name.Variable, using(this))),
 
             # Operators
             (r'[\+\-\*/=!\&\|\%\^<>]|\|\||&&', Operator),
@@ -58,6 +80,8 @@ class MscLexer(RegexLexer):
             (r'\s+', Text),
 
         ],
+
+        # 'function'
 
         'string': [
             (r'\{\{', String.Interpol, 'interpolation'),
