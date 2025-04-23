@@ -22,7 +22,12 @@
 \usepackage{blindtext}
 \usepackage{tocloft}
 
-\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks,
+    colorlinks = true,
+    linkcolor = blue,
+    urlcolor  = blue,
+    citecolor = black,
+    anchorcolor = black]{hyperref}
 \usepackage{vhistory}
 
 % \immediate\write18{which pygmentize > pygmentize-path.txt}
@@ -185,28 +190,71 @@
 \pagenumbering{roman} 
 
 \begin{preface}
-\section{Why is This a Thing?}
-\blindtext
+\section*{Why is This a Thing?}
+Minr Scripts (MSC) is a uniquely powerful tool for map makers to bring their creations to life. The capabilities for adding interactivity to maps is unmatched across public servers (don't fact check this). Minr is a niche community which allows for user-created scripts to be manually checked by admins. This enables the potency of MSC to be accessible to Greens+.
 
-\section{Who is This For?}
-\blindtext
+MSC is something many people find intimidating. Some people think you need a computer science degree or 100s of hours of programming experience to conquer MSC. Some people just don't know where to start. I want MSC to be as accessible as possible to the Greenie community. Of course, there are MSC tutorials scattered around the Minr resource ecosystem. Most are guides on using specific features.
 
-\section{What Will This Cover?}
-\blindtext
+On the forums, only the \href{https://forums.minr.org/threads/scripts-with-rman-1-basic-script-understanding.3193/}{"Scripts with rman!"} series is designed to be used by people who are complete beginners. This is an effective tutorial series for getting started quickly, but there is a lot of foundational information that I think should be built up to truly master MSC. It can also be annoying to navigate between each installment in the series, since they are located in separate forum posts.
+
+Another notable scripting tutorial that exists is the in the \href{https://msc-documentation.readthedocs.io/en/latest/tutorial.html}{documentation}. This tutorial is a bit more comprehensive, but its presentation is a little overwhelming. It also lacks interactivity; there are very few examples of scripts that are interesting enough for a learner to be motivated to try and run on their own. The examples that exist are somewhat contrived and don't particularly encourage the reader to think about what might be possible with scripts or the challenges of implementation.
+
+The goal of this Tetorial, is to unify many disparate chunks of knowledge into a single guide. The guide should be comprehensive in scope, encourage deep thought about scripts and their potential applications, and foster the skills needed to allow MSC to extend your creative capabilities. I also want to provide some guidance on optimizing your scripting environment and how to write readable, maintainable scripts. The latter of which is an oft neglected subject, even among some of the best scripters on Minr. A lot of effort has also gone toward increasing the readability of this guide, especially the blocks of code.
+
+\section*{Who is This For?}
+This guide is not for everyone and I understand that. Not everyone has the time or energy to commit to mastering a skill. If all you ever want to do is write simple scripts that print messages for the player and prompt responses, I encourage you to seek one of the sources I linked in the previous section.
+
+However, if you are interested in building a solid foundation of MSC knowledge and creating new and unique experiences through the power of MSC, I implore you to stick around and try to put in the work needed to build your skills. You may be surprised how approachable scripting can be.
+
+You do \textbf{NOT} need to have any prior programming knowledge for this guide. You do \textbf{NOT} need to have any inbuilt proclivities for technical subjects. You will, however, need to build a technical mindset to apply towards scripting. This is not something that comes easily for anyone. It is built up through practice and rigor. Hopefully, this guide allow you to cultivate this mindset through thought-provoking questions and exercises. You will need to be patient. Some things may be confusing or hard to understand. You cannot expect to conquer every obstacle instantly. I guess I should also mention that you should be Green+ for this to be of any use to you. If you're somehow reading this and you're not Green+, go beat HC.
+
+None of this is meant to be intimidating; I just want to set realistic expectations. If you actually read prefaces and have read up to this point, that is a sign that you will be successful in learning from this Tetorial. It shows you are passionate enough about expanding your creative expressibility to slog through a verbose preamble.
+
+\section*{What Will This Cover?}
+This Tetorial will start with the environment setup. This is something that every tutorial omits (besides \href{https://forums.minr.org/threads/visual-studio-code-extension-for-minr-scripts.6175/}{Lightwood13's post}). This is something that I think is very important. If you're environment is an impedence, you may become frustrated and give up. The habits that you form when you first learn something can be hard to break, and building habits in a quick-and-easy environment may cause pain and suffering in the future.
+
+In the next chapter, we dive into the basics scripts, contextualizing them within Minecraft and Minr. We will cover fundamental aspects of the language in a way that people who have never programmed before will understand. This chapter will prepare you to create basic scripts that players can interact with in chat.
+
+The chapter after that will cover the remaining important topics. This will prepare you to make scripts with logic that depend on answers given by players and the current state of the world. It will also introduce functions which will allow you to simplify your scripts by eliminating redundant code. After this, you should be able to do about 95\% of scripting tasks that you would normally need for a Minr map.
+
+The Advanced Topics chapter contains some very useful features. It also covers Built-ins, some of which are necessary for interacting with or querying things in Minecraft. The rest of this chapter is about optimizing and organizing scripts, as well as best practices for readability and maintability. This chapter should also help you fill in gaps in your knowledge. You should be very competent in MSC after reading up to this point.
+
+The Special Topics chapter will cover a variety of somewhat obscure features. Many of these are specific to Minecraft mechanics. Some are focused on general computer science topics. You don't need to read this chapter unless you want to use one of the features or you just want to be very proficient and knowledgeable about MSC.
+
+The last chapter is a few different recipes for scripting tasks that are commonly needed in Minr maps. Reading through these may give you inspiration for solving related problems or organizing scripting projects.
+
+With all that said, I hope this Tetorial will help you build a foundation for mastering MSC. If you have any feedback or questions related to this guide, feel free to reach out to me. Good luck!
+
 \end{preface}
 
-
+\hypersetup{linkcolor=black}
 \tableofcontents
-
+\hypersetup{linkcolor=blue}
 
 \mainmatter
 \pagestyle{plain}
 
 \chapter{Environment}
-\blindtext
+Before we can start scripting, we need to discuss the environment. By "environment," I mean the things that scripts are embedded in, the thigngs that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter.
 
 \section{Welcome to the Test Server!}
-\blindtext
+The test server is for Green+ player only. If you are reading this and are not Green+, go beat HC and come back. The server allows you to test out things that can only be done by staff on the main server. The most common things you might want to test are scripts, world edit commands, and various Vanilla Minecraft commands. The Test Server is the quintessential scripting tool. You need to test your scripts to make sure that they are importable and work correctly. To join the Test Server, go to \href{https://forums.minr.org/pages/testserver/}{this forum page}. Familiarize yourself with the rules and follow the instructions to become whitelisted and op'ed.
+
+\subsection{Command Syntax}
+
+We will briefly cover commands. Some commands will be Vanilla, some will be for common plugins, and some will be for the Minr plugin. When discussing commands, you will often see syntax like:
+
+\begin{verbatim}
+/advancement (grant|revoke) <targets> only <advancement> [<criterion>]
+\end{verbatim}
+
+This syntax might seem overwhelming, but it's actually fairly straightforward. The first word in a command (which follows the \texttt{/}) is the command name. Everything that follow the command name is an argument. Arguments that aren't enclosed by brackets (often called decorators in this context) like \texttt{only} in the above example are written in the command directly. Arguments enclosed in angle brackets like \texttt{<targets>} are required arguments. When you write the command, you must subtitute this with an expression that represents that argument type. Arguments enclosed in square brackets indicate that they are optional. In this example, \texttt{[<criterion>]} is optional, but the angled brackets indicate that criterion should be substituted rather than written directly. The pipe character represents a choice. In the example, \texttt{grant|revoke} means you should either write \texttt{grant} or \texttt{revoke} for that argument of the command. The parenthesis around them are just there to indicate that they are grouped as an argument.
+% ask why parentheses are needed
+% give some example commands and ask what each argument represents
+
+\subsection{Basic Commands}
+
+\subsection{Script Commands}
 
 \section{Hastebin}
 \blindtext
@@ -309,6 +357,12 @@
 \blindtext
 
 \section{Learn to Learn}
+\blindtext
+
+\section{Summary}
+\blindtext
+
+\section{Exercises}
 \blindtext
 
 \chapter{Special Topics}
