@@ -6,7 +6,8 @@
 \usepackage{xcolor}
 \usepackage{amssymb}
 \usepackage{ifthen}
-\usepackage[most, minted]{tcolorbox}
+\usepackage[most, minted, skins]{tcolorbox}
+\tcbuselibrary{many}
 
 \usepackage{a4wide}
 \usepackage{array}
@@ -159,6 +160,36 @@
 {\renewcommand{\theFancyVerbLine}{\ttfamily
 \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
 
+%%% Text Boxes
+
+\newtcolorbox{satbox}[2][]{%
+  enhanced,colback=white,colframe=black,coltitle=black,
+  sharp corners,boxrule=0.4pt,
+  fonttitle=\itshape,
+  attach boxed title to top left={yshift=-0.3\baselineskip-0.4pt,xshift=2mm},
+  boxed title style={tile,size=minimal,left=0.5mm,right=0.5mm,
+    colback=white,before upper=\strut},
+  title=#2,#1
+}
+
+\tcbset{
+    enhanced,
+    drop shadow,
+    attach boxed title to top left={
+        xshift=0.5cm,
+        yshift=-\tcboxedtitleheight/2},  % <---
+    top=4mm,
+    coltitle=black,
+    colbacktitle=gray!35!green!10,
+    beforeafter skip=\baselineskip,
+}
+\newenvironment{thinkbox}{%
+    \begin{tcolorbox}[title=Stop and Think]%
+    }{
+    \end{tcolorbox}
+    }
+
+
 %%% Preface environment
 % ===== Define abstract environment =====
 \newcommand{\prefacename}{Preface}
@@ -235,7 +266,7 @@ With all that said, I hope this Tetorial will help you build a foundation for ma
 \pagestyle{plain}
 
 \chapter{Environment}
-Before we can start scripting, we need to discuss the environment. By "environment," I mean the things that scripts are embedded in, the thigngs that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter.
+Before we can start scripting, we need to discuss the environment. By "environment," I mean the things that scripts are embedded in, the things that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter.
 
 \section{Welcome to the Test Server!}
 The test server is for Green+ player only. If you are reading this and are not Green+, go beat HC and come back. The server allows you to test out things that can only be done by staff on the main server. The most common things you might want to test are scripts, world edit commands, and various Vanilla Minecraft commands. The Test Server is the quintessential scripting tool. You need to test your scripts to make sure that they are importable and work correctly. To join the Test Server, go to \href{https://forums.minr.org/pages/testserver/}{this forum page}. Familiarize yourself with the rules and follow the instructions to become whitelisted and op'ed.
@@ -248,11 +279,58 @@ We will briefly cover commands. Some commands will be Vanilla, some will be for 
 /advancement (grant|revoke) <targets> only <advancement> [<criterion>]
 \end{verbatim}
 
-This syntax might seem overwhelming, but it's actually fairly straightforward. The first word in a command (which follows the \texttt{/}) is the command name. Everything that follow the command name is an argument. Arguments that aren't enclosed by brackets (often called decorators in this context) like \texttt{only} in the above example are written in the command directly. Arguments enclosed in angle brackets like \texttt{<targets>} are required arguments. When you write the command, you must subtitute this with an expression that represents that argument type. Arguments enclosed in square brackets indicate that they are optional. In this example, \texttt{[<criterion>]} is optional, but the angled brackets indicate that criterion should be substituted rather than written directly. The pipe character represents a choice. In the example, \texttt{grant|revoke} means you should either write \texttt{grant} or \texttt{revoke} for that argument of the command. The parenthesis around them are just there to indicate that they are grouped as an argument.
-% ask why parentheses are needed
-% give some example commands and ask what each argument represents
+This syntax might seem overwhelming, but it's actually fairly straightforward. The first word in a command (which follows the \texttt{/}) is the command name. Everything that follow the command name is an argument. Arguments that aren't enclosed by brackets (often called decorators in this context) like \texttt{only} in the above example are written in the command directly. Arguments enclosed in angle brackets like \texttt{<targets>} are required arguments. When you write the command, you must subtitute this with an expression that represents that argument type. Arguments enclosed in square brackets indicate that they are optional. In this example, \texttt{[<criterion>]} is optional, but the angled brackets indicate that criterion should be substituted rather than written directly. The pipe character represents a choice. In the example, \texttt{grant|revoke} means you should either write \texttt{grant} or \texttt{revoke} for that argument of the command. The parenthesis around them are just there to indicate that they are grouped as an argument. 
+
+This paragraph is included for completeness and isn't necessary for you to understand completely. You may see ellipses (\texttt{...}) in command syntaxes. These should mean that a full command or subcommand should replace the ellipses, but sometimes people will use ellipses to just mean "something goes here." Finally, there is also a notation that is only used for \texttt{execute} commands. It looks like \texttt{... align <axes> -> execute}. This just means that another execute command needs to be chained after the command.
+
+There is also some nuance with argument types that you don't need to understand for now, but the most important thing to note is that arguments can contain spaces. In the command below, the argument \texttt{<location>} has type \texttt{vec3} (three numbers separated by spaces).
+
+\begin{verbatim}
+/teleport <targets> <location> <rotation>
+\end{verbatim}
+
+A valid argument of this type could be \texttt{1 2 3}. The argument \texttt{<rotation>} is basically two numbers like \texttt{30 45}. So the command could end with \texttt{1 2 3 30 45}. This can be confusing to parse, but you will get used to it as you work with commands.
+
+One final thing to note about command syntax is that if a command contains multiple optional arguments, you cannot pick which arguments to use freely (at least for Vanilla commands). You must include all optional arguments to the left of each argument that you include. Effectively, this means that as soon as you choose not to include an optional argument when writing a command, you may not add any more arguments. A command with syntax \texttt{/a [b] [c] [d]} only has valid calls of \texttt{/a}, \texttt{/a b}, \mbox{\texttt{/a b c}}, and \texttt{/a b c d}.
+
+
+\begin{thinkbox}
+    \begin{enumerate}
+        \item Why do we need parentheses to group argument choices? Why can't we just do the following?
+        \begin{verbatim}
+/advancement grant|revoke <targets> only <advancement> [<criterion>]\end{verbatim} 
+        If you need a hint, consider item (c) in question 2.
+        \item Try to understand the following command syntaxes. For each argument, determine whether it is required, determine whether it should be written directly or substituted, and guess what might be valid values.
+        \begin{enumerate}
+            \item \texttt{/kick <targets> [<reason>]}
+            \item \texttt{/setblock <pos> <block> [destroy|keep|replace|strict]}
+            \item \texttt{/execute rotated (<rot>|as <targets>) -> execute}
+            \item \texttt{/effect give <targets> <effect> infinite [<amplifier>]} \\
+            \texttt{[<hideParticles>]}
+        \end{enumerate}
+        \item Why don't we see Vanilla command syntaxes with required arguments to the right of optional arguments?
+    \end{enumerate}
+\end{thinkbox}
 
 \subsection{Basic Commands}
+
+At this point, you should have access to the Test Server and be somewhat comfortable reading command syntax. In this section we will introduce commands that you will need to set up a testing area and commands that are used often in scripts.
+
+\subsubsection*{Changing Gamemodes}
+
+The first thing you will want to do is go into creative and spectator modes. You can always use the Vanilla command \texttt{/gamemode <gamemode> [<target>]}, but it's more convenient to use the shortcuts \texttt{/creative}, \texttt{/spectator}, etc. for changing your own gamemode. Even more convenient is the \texttt{F3+F4} keyboard shortcut. Go ahead and fly somewhere away from other people's stuff and find a nice place to set up a testing area.
+
+\subsubsection*{Building a platform}
+
+It is usually very convenient to have a flat platform to test scripts on. The easiest way to get this platform is with WorldEdit. Simply fly to one corner of where you want the platform to be and run \texttt{//pos1}, then fly to the opposite corner and run \texttt{//pos2}, and set the selection to a block of your choosing with \texttt{//set <pattern>} where \texttt{<pattern>} can be a block of your choosing (please do not choose something with gravity like sand or water or block entities like furnaces or beehives). A $100 \times 100$ platform should be enough for a long time. This is about all the world edit we'll cover in this guide. If you want to learn more there are many resources. % maybe link some in an appendix
+
+\subsubsection*{Defining a region}
+
+While you have this area selected, you may as well create a region. Run \texttt{//expand vert} to make the selection cover every y level. Then do \texttt{/rg define <id> [<owners>]}, where \texttt{<id>} is the name of the region and \texttt{<owners>} are the players you wish to be the owners of the region (you should include yourself). The region will be defined based on your current WorldEdit selection. This won't be too helpful in preventing people from messing with your region since ops bypass region protection by default on the Test Server, but it is good to know how to define a region and there may be flags you want to set.
+
+\subsubsection*{Teleporting}
+
+One of the most useful commands in scripting is \texttt{/teleport}, which has the alias \texttt{/tp}.
 
 \subsection{Script Commands}
 
