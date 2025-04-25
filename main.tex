@@ -330,7 +330,78 @@ While you have this area selected, you may as well create a region. Run \texttt{
 
 \subsubsection*{Teleporting}
 
-One of the most useful commands in scripting is \texttt{/teleport}, which has the alias \texttt{/tp}.
+One of the most useful commands in scripting is \texttt{/teleport}, which has the alias \texttt{/tp}. Teleporting the player has obviously useful applications in making maps including story telling, maze design, and de-cheesing doors. You may already be familiar with Vanilla \texttt{tp} commands. If not here are all of the valid forms:
+
+\begin{verbatim}
+/minecraft:tp <destination_entity>
+/minecraft:tp <targets> <destination_entity>
+/minecraft:tp <location>
+/minecraft:tp <targets> <location>
+/minecraft:tp <targets> <location> <rotation>
+/minecraft:tp <targets> <location> facing <facingLocation>
+/minecraft:tp <targets> <location> facing entity <facingEntity> [<facingAnchor>]
+\end{verbatim}
+
+You might notice that I prefixed all the \texttt{tp} command syntaxes with \texttt{minecraft:}. This specifies that the Vanilla version of the command should be used. By default \texttt{tp} will try to use the Minr-specific command whose syntaxes are listed below. The Vanilla version is a bit more powerful than Minr's. It let's you select multiple targets that don't have to be players, and you can have the player face a position or entity. \texttt{minr:tp} on the other hand let's you specify a world to tp to. The most relevant distinction between these two is that \texttt{minecraft:tp} won't show up in chat when called through a script.
+
+\begin{verbatim}
+/minr:tp <player> [<player-destination>|<position>]
+/minr:tp <position> [<world>|<rotation>]
+\end{verbatim}
+
+\subsubsection*{Potion Effects}
+Another important command that will be useful for scripting is \texttt{/effect}. These allow you to give and remove arbitrary potion effect to and from entities. Here are the command syntaxes:
+
+\begin{verbatim}
+/effect give <targets> <effect> [<seconds>|infinite] [<amplifier>]
+[<hideParticles>]
+/effect clear [<targets>] [<effect>]
+\end{verbatim}
+
+\subsubsection*{Giving Items}
+Giving players items is a very useful task in scripting. Specifying the metadata of items (custom name, lore, modifiers, etc.) can be tricky, but there are tools that can help you which we will cover shortly. The complementary task of giving items is clearing them. Both command's syntaxes are shown below.
+
+\begin{verbatim}
+/give <targets> <item> [<count>]
+/clear [<targets>] [<item>] [<maxCount>]
+\end{verbatim}
+
+\subsubsection*{Summoning Entities}
+On occasion, you may want to summon specific entities. The syntax is show below. Again, summoning entities with specific attributes is very difficult. We will discuss tools for doing this soon.
+
+\begin{verbatim}
+/summon <entity> [<pos>] [<nbt>]
+\end{verbatim}
+
+\subsubsection*{Killing Players and Entities}
+Killing the player who is running the script is easy. Simply run \texttt{/kill}. Again, there is a Minr-specific \texttt{kill} command that is used by default. If you want to kill things other than your own player, you need to use the Vanilla version. This is something you want to be \textbf{VERY} careful about. It's generally safe if you have a specific player you want to kill, but any other entity has to be targetted with target selectors which can be extremely dangerous. If your target selector is \texttt{@e} without any additional arguments, for example, you will target every single loaded entity on the server. Combining this with the \texttt{kill} command will have devastating effects on the server. \textbf{NEVER RUN COMMANDS WITH @e or @a WITHOUT ARGUMENTS!} I will acknowledge that it is sometimes necessary to kill non-player entities or specific groups of players, so I will explain how to use target selectors in the following section. For now, note the \texttt{kill} command syntax.
+
+\begin{verbatim}
+/minecraft:kill [<targets>]
+\end{verbatim}
+
+\subsubsection*{Target Selectors}
+
+The simplest target selector is \texttt{@s}. This will select the entity that executed the command. If you run a command normally, this will be your player. The next simplest selector is \texttt{@p}. This will select the player nearest to the location that the command was executed at. If you run a command normally, this will be your player. The target selector \texttt{@n} selects the nearest entity. Next is \texttt{@a}. This will select all players on the server. Clearly this is dangerous on its own. Finally, there is \texttt{@e}. This will select all entities in loaded chunks on the server. This is extremely dangerous. Exercise extreme caution.
+
+The arguments to these selectors are key to ensuring you affect only the entities that you want to affect. Arguments are written as a list of argument names and values enclosed by square brackets. The syntax can be described as follows. \texttt{variable} can be \texttt{e}, \texttt{a}, \texttt{p}, etc. Note that here the square brackets are actually typed in the expression and the ellipsis represents extending the list of argument-value pairs rather than a full command/subcommand.
+
+\begin{verbatim}
+@<variable>[<argument>=<value>,<argument>=<value>,...]
+\end{verbatim}
+
+There are many arguments, but I will cover some of the more useful ones. The most important one is \texttt{distance}. You should \textbf{ALWAYS} include a spatial argument if you are using \texttt{@e} or \texttt{@a}. \texttt{distance} is the simplest spatial argument. You will almost always use it like \texttt{distance=..10}. This limits the entities being targetted to be at most 10 blocks away. You can replace this number with whatever is appropriate for you use case. Just be careful.
+
+Another useful argument is \texttt{type}. You can choose to only target pigs for example with \texttt{type=pig}. You can also choose to target all entities that aren't players with \texttt{type=!player}.
+
+You can add an extra layer of safety by utilizing tags. Usually if there are things you want to kill, they are things that you have summoned earlier. If this is the case, you can give the entities a unique tag when you summon them and only select that tag when you kill it with \texttt{tag=<tagname>}.
+
+Another layer of safety is to use the \texttt{limit} and \texttt{sort} arguments to cap the number of entities selected. This could be \texttt{limit=5,sort=nearest} to only select up to 5 entities and choose the 5 nearest entities which match the other arguments.
+
+There are many more arguments that you can read about \href{https://minecraft.wiki/w/Target_selectors}{on the wiki}. The most important takeaway is to use something like \texttt{distance=..10} whenever you target all entities or players. If you are ever unsure about a command, ask someone who is knowledgeable or test it in a singleplayer world or in your own personal server.
+
+\subsubsection*{Commands with Metadata}
+As mentioned before, it challenging to write some commands, especially those which give certain attributes to items or entities. Creating such commands requires writing a complicated syntax tree inline, which is unintuitive even for experienced professional programmers. Luckily, there's a tool called \href{https://mcstacker.net/}{MCStacker.net}. This will be your best friend when writing these commands. Be mindful that there is a 256 character limit per chat message (which includes commands), so you can't run super long commands in chat. You will need to use a command block or run it in a script (we'll talk about scripts at some point I promise).
 
 \subsection{Script Commands}
 
