@@ -503,3 +503,5 @@ msc_style.py
 tcb_test.tex
 test.msc
 msc.py
+
+test/

@@ -7,6 +7,7 @@
 \usepackage{amssymb}
 \usepackage{ifthen}
 \usepackage[most, minted, skins]{tcolorbox}
+\tcbuselibrary{listings,breakable}
 \tcbuselibrary{many}
 
 \usepackage{a4wide}
@@ -175,6 +176,7 @@
 \tcbset{
     enhanced,
     drop shadow,
+    breakable,
     attach boxed title to top left={
         xshift=0.5cm,
         yshift=-\tcboxedtitleheight/2},  % <---
@@ -224,13 +226,13 @@
 \section*{Why is This a Thing?}
 Minr Scripts (MSC) is a uniquely powerful tool for map makers to bring their creations to life. The capabilities for adding interactivity to maps is unmatched across public servers (don't fact check this). Minr is a niche community which allows for user-created scripts to be manually checked by admins. This enables the potency of MSC to be accessible to Greens+.
 
-MSC is something many people find intimidating. Some people think you need a computer science degree or 100s of hours of programming experience to conquer MSC. Some people just don't know where to start. I want MSC to be as accessible as possible to the Greenie community. Of course, there are MSC tutorials scattered around the Minr resource ecosystem. Most are guides on using specific features.
+MSC is something many people find intimidating. Some people think you need a computer science degree or 100s of hours of programming experience to conquer MSC. Some people just don't know where to start. I want MSC to be as accessible as possible to the Greenie community. Of course, there are MSC tutorials scattered around the Minr resource ecosystem. Most are guides on using specific features, but a couple are made for beginners.
 
 On the forums, only the \href{https://forums.minr.org/threads/scripts-with-rman-1-basic-script-understanding.3193/}{"Scripts with rman!"} series is designed to be used by people who are complete beginners. This is an effective tutorial series for getting started quickly, but there is a lot of foundational information that I think should be built up to truly master MSC. It can also be annoying to navigate between each installment in the series, since they are located in separate forum posts.
 
 Another notable scripting tutorial that exists is the in the \href{https://msc-documentation.readthedocs.io/en/latest/tutorial.html}{documentation}. This tutorial is a bit more comprehensive, but its presentation is a little overwhelming. It also lacks interactivity; there are very few examples of scripts that are interesting enough for a learner to be motivated to try and run on their own. The examples that exist are somewhat contrived and don't particularly encourage the reader to think about what might be possible with scripts or the challenges of implementation.
 
-The goal of this Tetorial, is to unify many disparate chunks of knowledge into a single guide. The guide should be comprehensive in scope, encourage deep thought about scripts and their potential applications, and foster the skills needed to allow MSC to extend your creative capabilities. I also want to provide some guidance on optimizing your scripting environment and how to write readable, maintainable scripts. The latter of which is an oft neglected subject, even among some of the best scripters on Minr. A lot of effort has also gone toward increasing the readability of this guide, especially the blocks of code.
+The goal of this Tetorial, is to unify many disparate chunks of knowledge into a single guide. The guide should be comprehensive in scope, encourage deep thought about scripts and their potential applications, and foster the skills needed to allow MSC to extend your creative capabilities. I also want to provide some guidance on optimizing your scripting environment and how to write readable, maintainable scripts. The latter of which is an oft neglected subject, even among some of the best scripters on Minr. A lot of effort has also gone toward increasing the readability of this guide, especially the blocks of code. Feel free to reach out if you have any suggestions.
 
 \section*{Who is This For?}
 This guide is not for everyone and I understand that. Not everyone has the time or energy to commit to mastering a skill. If all you ever want to do is write simple scripts that print messages for the player and prompt responses, I encourage you to seek one of the sources I linked in the previous section.
@@ -242,7 +244,7 @@ You do \textbf{NOT} need to have any prior programming knowledge for this guide.
 None of this is meant to be intimidating; I just want to set realistic expectations. If you actually read prefaces and have read up to this point, that is a sign that you will be successful in learning from this Tetorial. It shows you are passionate enough about expanding your creative expressibility to slog through a verbose preamble.
 
 \section*{What Will This Cover?}
-This Tetorial will start with the environment setup. This is something that every tutorial omits (besides \href{https://forums.minr.org/threads/visual-studio-code-extension-for-minr-scripts.6175/}{Lightwood13's post}). This is something that I think is very important. If you're environment is an impedence, you may become frustrated and give up. The habits that you form when you first learn something can be hard to break, and building habits in a quick-and-easy environment may cause pain and suffering in the future.
+This Tetorial will start with the environment setup. This is something that every tutorial omits or glosses over (besides \href{https://forums.minr.org/threads/visual-studio-code-extension-for-minr-scripts.6175/}{Lightwood13's post}). This is something that I think is very important. If you're environment is an impedence, you may become frustrated and give up. The habits that you form when you first learn something can be hard to break, and building habits in a quick-and-easy environment may cause pain and suffering in the future.
 
 In the next chapter, we dive into the basics scripts, contextualizing them within Minecraft and Minr. We will cover fundamental aspects of the language in a way that people who have never programmed before will understand. This chapter will prepare you to create basic scripts that players can interact with in chat.
 
@@ -266,7 +268,7 @@ With all that said, I hope this Tetorial will help you build a foundation for ma
 \pagestyle{plain}
 
 \chapter{Environment}
-Before we can start scripting, we need to discuss the environment. By "environment," I mean the things that scripts are embedded in, the things that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter.
+Before we can start scripting, we need to discuss the environment. By "environment," I mean the things that scripts are embedded in, the things that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter. However, if you are already very familiar with the Minr Test Server and Vanilla Minecraft commands, you can skip to section \ref{subsec:script-commands}.
 
 \section{Welcome to the Test Server!}
 The test server is for Green+ player only. If you are reading this and are not Green+, go beat HC and come back. The server allows you to test out things that can only be done by staff on the main server. The most common things you might want to test are scripts, world edit commands, and various Vanilla Minecraft commands. The Test Server is the quintessential scripting tool. You need to test your scripts to make sure that they are importable and work correctly. To join the Test Server, go to \href{https://forums.minr.org/pages/testserver/}{this forum page}. Familiarize yourself with the rules and follow the instructions to become whitelisted and op'ed.
@@ -333,13 +335,14 @@ While you have this area selected, you may as well create a region. Run \texttt{
 One of the most useful commands in scripting is \texttt{/teleport}, which has the alias \texttt{/tp}. Teleporting the player has obviously useful applications in making maps including story telling, maze design, and de-cheesing doors. You may already be familiar with Vanilla \texttt{tp} commands. If not here are all of the valid forms:
 
 \begin{verbatim}
-/minecraft:tp <destination_entity>
-/minecraft:tp <targets> <destination_entity>
+/minecraft:tp <destination-entity>
+/minecraft:tp <targets> <destination-entity>
 /minecraft:tp <location>
 /minecraft:tp <targets> <location>
 /minecraft:tp <targets> <location> <rotation>
-/minecraft:tp <targets> <location> facing <facingLocation>
-/minecraft:tp <targets> <location> facing entity <facingEntity> [<facingAnchor>]
+/minecraft:tp <targets> <location> facing <facing-location>
+/minecraft:tp <targets> <location> facing entity <facing-entity>
+[<facing-anchor>]
 \end{verbatim}
 
 You might notice that I prefixed all the \texttt{tp} command syntaxes with \texttt{minecraft:}. This specifies that the Vanilla version of the command should be used. By default \texttt{tp} will try to use the Minr-specific command whose syntaxes are listed below. The Vanilla version is a bit more powerful than Minr's. It let's you select multiple targets that don't have to be players, and you can have the player face a position or entity. \texttt{minr:tp} on the other hand let's you specify a world to tp to. The most relevant distinction between these two is that \texttt{minecraft:tp} won't show up in chat when called through a script.
@@ -390,7 +393,7 @@ The arguments to these selectors are key to ensuring you affect only the entitie
 @<variable>[<argument>=<value>,<argument>=<value>,...]
 \end{verbatim}
 
-There are many arguments, but I will cover some of the more useful ones. The most important one is \texttt{distance}. You should \textbf{ALWAYS} include a spatial argument if you are using \texttt{@e} or \texttt{@a}. \texttt{distance} is the simplest spatial argument. You will almost always use it like \texttt{distance=..10}. This limits the entities being targetted to be at most 10 blocks away. You can replace this number with whatever is appropriate for you use case. Just be careful.
+There are many arguments, but I will cover some of the more useful ones. The most important one is \texttt{distance}. You should \textbf{ALWAYS} include a spatial argument if you are using \texttt{@e} or \texttt{@a}. \texttt{distance} is the simplest spatial argument. You will almost always use it like \texttt{distance=..10}. This limits the entities being targetted to be at most 10 blocks away (Euclidean distance). You can replace this number with whatever is appropriate for you use case. Just be careful.
 
 Another useful argument is \texttt{type}. You can choose to only target pigs for example with \texttt{type=pig}. You can also choose to target all entities that aren't players with \texttt{type=!player}.
 
@@ -401,9 +404,33 @@ Another layer of safety is to use the \texttt{limit} and \texttt{sort} arguments
 There are many more arguments that you can read about \href{https://minecraft.wiki/w/Target_selectors}{on the wiki}. The most important takeaway is to use something like \texttt{distance=..10} whenever you target all entities or players. If you are ever unsure about a command, ask someone who is knowledgeable or test it in a singleplayer world or in your own personal server.
 
 \subsubsection*{Commands with Metadata}
-As mentioned before, it challenging to write some commands, especially those which give certain attributes to items or entities. Creating such commands requires writing a complicated syntax tree inline, which is unintuitive even for experienced professional programmers. Luckily, there's a tool called \href{https://mcstacker.net/}{MCStacker.net}. This will be your best friend when writing these commands. Be mindful that there is a 256 character limit per chat message (which includes commands), so you can't run super long commands in chat. You will need to use a command block or run it in a script (we'll talk about scripts at some point I promise).
+As mentioned before, it can be challenging to write some commands, especially those which give certain attributes to items or entities. Creating such commands requires writing a complicated syntax tree inline, which is unintuitive even for experienced professional programmers. Luckily, there's a tool called \href{https://mcstacker.net/}{MCStacker.net}. This will be your best friend when writing these commands. Be mindful that there is a 256 character limit per chat message (which includes commands), so you can't run super long commands in chat. You will need to use a command block or run it in a script (we'll talk about scripts at some point I promise). Also note that commands change between Minecraft versions, and MCStacker will use the latest version by default, so you may need to select a different version.
 
-\subsection{Script Commands}
+\begin{thinkbox}
+\begin{enumerate}
+    \item Reflect on all the commands described in this section. How are each of these useful in the context of a Minr map? Where have you seen them used? How have they affected your experience when playing a map?
+    \item Look at the last 4 versions of \texttt{minecraft:tp}. These could have been written in a single syntax description. Try and write what that would look like. Is it easier or harder to read?
+    \item The value given to the \texttt{distance} argument can either be a number or a range of numbers. \texttt{distance=..10} means the distance can be at most 10, \texttt{distance=10..} means the distance can be at most 10, and \texttt{distance=10} means the distance has to be exactly 10. You can also do \texttt{distance=5..10} which means the distance is between 5 and 10. Try to visualize the regions that would be defined by these values. How are they shaped? Which ones seem more useful in the context of a Minr map?
+    \item Visit \href{https://mcstacker.net/}{MCStacker.net}. Try making some give and summon commands. Below are some examples to try. You may need paste the command into a command block if it's too long.
+    \begin{enumerate}
+        \item A command to give yourself a Netherite Sword with a custom name, a +5 attack damage attribute, and Sharpness V enchantment.
+        \item A command to summon an armor stand with an unbreakable diamond chestplate, green-dyed leather pants, chainmail boots with an armor trim, your own player head in the head slot, and arms visible.
+        \item A command to summon a glowing, weak personality panda with double size.
+    \end{enumerate}
+    
+\end{enumerate}
+\end{thinkbox}
+
+\subsection{Script Commands} \label{subsec:script-commands}
+
+In order to test scripts, you must be able to attach them to things on the server. Everything you need will be contained within the \texttt{/script} command, which has the convenient alias of \texttt{/s}. For simplicity, I will always use the non-aliased versions. Script commands follow the following pattern.
+
+\begin{verbatim}
+/script <action> <type> [type-parameters] [action-parameters]
+\end{verbatim}
+
+% TODO: create an action/actionaparameter table
+%       create a type/typeparameter table
 
 \section{Hastebin}
 \blindtext
