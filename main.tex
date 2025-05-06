@@ -1,211 +1,6 @@
 \documentclass[oneside]{book}
-\usepackage[margin=1.2in]{geometry}
-\usepackage[cache=false]{minted}
-\usepackage{tikz}
-\usepackage[utf8]{inputenc}
-\usepackage{xcolor}
-\usepackage{amssymb}
-\usepackage{ifthen}
-\usepackage[most, minted, skins]{tcolorbox}
-\tcbuselibrary{listings,breakable}
-\tcbuselibrary{many}
 
-\usepackage{a4wide}
-\usepackage{array}
-\newcolumntype{C}{>{\centering\arraybackslash}X}
-\renewcommand{\arraystretch}{1.2}
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{caption}
-\usepackage{array}
-\usepackage{float}
-\usepackage{natbib}
-\usepackage{graphicx}
-\usepackage{blindtext}
-\usepackage{tocloft}
-
-\usepackage[hidelinks,
-    colorlinks = true,
-    linkcolor = blue,
-    urlcolor  = blue,
-    citecolor = black,
-    anchorcolor = black]{hyperref}
-\usepackage{vhistory}
-
-% \immediate\write18{which pygmentize > pygmentize-path.txt}
-% \pagecolor{gray}
-% \color{white}
-\definecolor{bgdark}{HTML}{2E3440}  % Nord-ish dark gray-blue
-\definecolor{fgtext}{HTML}{ECEFF4} % Near-white
-\definecolor{arrowcolor}{HTML}{88C0D0}
-\definecolor{darkline}{HTML}{4C566A}
-
-\definecolor{codebg}{HTML}{2E3440}
-\definecolor{codelinebg}{HTML}{3B4252}
-\definecolor{codelinefg}{HTML}{88C0D0}
-\definecolor{codefg}{HTML}{ECEFF4}
-\definecolor{arrowdark}{HTML}{88C0D0}
-\definecolor{arrowlight}{HTML}{333333}
-\definecolor{bglight}{HTML}{FAFAFA}
-\definecolor{bgdark}{HTML}{242424}
-\definecolor{linenobgdark}{HTML}{2A2D2E}
-\definecolor{borderdark}{HTML}{2A2D2E}
-
-
-
-\newboolean{darkmodeon}
-\setboolean{darkmodeon}{true}   % <-- set to false for light mode
-
-\ifthenelse{\boolean{darkmodeon}}
-% Dark Mode
-{\newtcblisting{msccode}{
-  minted language=msc2,
-  minted style=msc_dark,
-  minted options={
-      fontsize=\normalsize,
-      linenos,
-      numbersep=1mm,
-      breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
-      breaklines=true,
-  },% <-- put other minted options inside the brackets
-  overlay={%
-      \begin{tcbclipinterior}
-          \fill[linenobgdark] (frame.south west) rectangle ([xshift=5mm]frame.north west);
-      \end{tcbclipinterior}
-  },
-  colback=bgdark,
-  colframe=borderdark,
-  before skip=5pt plus 2pt,
-  breakable,
-  enhanced,% <-- put other tcolorbox options here
-  listing only
-  }}
-% Light Mode
-{\newtcblisting{msccode}{
-  minted language=msc2,
-  minted style=msc_light,
-  minted options={
-      fontsize=\normalsize,
-      linenos,
-      numbersep=1mm,
-      breaksymbolleft=\textcolor{arrowlight}{\tiny$\hookrightarrow$},
-      breaklines=true,
-  },% <-- put other minted options inside the brackets
-  overlay={%
-      \begin{tcbclipinterior}
-          \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
-      \end{tcbclipinterior}
-  },
-  colback=bglight,
-  colframe=black!70,
-  before skip=5pt plus 2pt,
-  breakable,
-  enhanced,% <-- put other tcolorbox options here
-  listing only
-  }}
-
-\ifthenelse{\boolean{darkmodeon}}
-  % Dark Mode
-  {\newtcblisting{nmscode}{
-    minted language=nms,
-    minted style=msc_dark,
-    minted options={
-        fontsize=\normalsize,
-        linenos,
-        numbersep=1mm,
-        breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
-        breaklines=true,
-    },% <-- put other minted options inside the brackets
-    overlay={%
-        \begin{tcbclipinterior}
-            \fill[linenobgdark] (frame.south west) rectangle ([xshift=5mm]frame.north west);
-        \end{tcbclipinterior}
-    },
-    colback=bgdark,
-    colframe=borderdark,
-    before skip=5pt plus 2pt,
-    breakable,
-    enhanced,% <-- put other tcolorbox options here
-    listing only
-    }}
-  % Light Mode
-  {\newtcblisting{nmscode}{
-    minted language=nms,
-    minted style=msc_light,
-    minted options={
-        fontsize=\normalsize,
-        linenos,
-        numbersep=1mm,
-        breaksymbolleft=\textcolor{arrowlight}{\tiny$\hookrightarrow$},
-        breaklines=true,
-    },% <-- put other minted options inside the brackets
-    overlay={%
-        \begin{tcbclipinterior}
-            \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
-        \end{tcbclipinterior}
-    },
-    colback=bglight,
-    colframe=black!70,
-    before skip=5pt plus 2pt,
-    breakable,
-    enhanced,% <-- put other tcolorbox options here
-    listing only
-}}
-
-% \renewcommand{\theFancyVerbLine}{\ttfamily
-%   \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}
-
-\ifthenelse{\boolean{darkmodeon}}
-{\renewcommand{\theFancyVerbLine}{\ttfamily
-\textcolor[HTML]{707880}{\small{\arabic{FancyVerbLine}}}}}
-{\renewcommand{\theFancyVerbLine}{\ttfamily
-\textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
-
-%%% Text Boxes
-
-\newtcolorbox{satbox}[2][]{%
-  enhanced,colback=white,colframe=black,coltitle=black,
-  sharp corners,boxrule=0.4pt,
-  fonttitle=\itshape,
-  attach boxed title to top left={yshift=-0.3\baselineskip-0.4pt,xshift=2mm},
-  boxed title style={tile,size=minimal,left=0.5mm,right=0.5mm,
-    colback=white,before upper=\strut},
-  title=#2,#1
-}
-
-\tcbset{
-    enhanced,
-    drop shadow,
-    breakable,
-    attach boxed title to top left={
-        xshift=0.5cm,
-        yshift=-\tcboxedtitleheight/2},  % <---
-    top=4mm,
-    coltitle=black,
-    colbacktitle=gray!35!green!10,
-    beforeafter skip=\baselineskip,
-}
-\newenvironment{thinkbox}{%
-    \begin{tcolorbox}[title=Stop and Think]%
-    }{
-    \end{tcolorbox}
-    }
-
-
-%%% Preface environment
-% ===== Define abstract environment =====
-\newcommand{\prefacename}{Preface}
-\newenvironment{preface}{
-    \vspace*{\stretch{2}}
-    {\noindent \bfseries \Huge \prefacename}
-    \begin{center}
-        \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
-        \thispagestyle{plain}
-    \end{center}%
-}
-{\vspace*{\stretch{5}}}
-
-%%%%% END OF PREAMBLE %%%%%
+\input{preamble.tex}
 
 \begin{document}
 
@@ -370,7 +165,7 @@ Giving players items is a very useful task in scripting. Specifying the metadata
 \end{verbatim}
 
 \subsubsection*{Summoning Entities}
-On occasion, you may want to summon specific entities. The syntax is show below. Again, summoning entities with specific attributes is very difficult. We will discuss tools for doing this soon.
+On occasion, you may want to summon specific entities. The syntax is show below. Again, summoning entities with specific attributes is very difficult. We will discuss tools for doing this soon. It's worth noting that whenever an entity is created it is given a UUID. You do not need to understand anything about this except that UUIDs are useful for targetting specific entities. You may be inclined to spawn entities with specific UUIDs to select them later, but you should avoid doing this as you may accidentally create entities with duplicate UUIDs which can cause problems. Instead, you should use tags, which will be covered briefly in \nameref{subsec:target-selectors}.
 
 \begin{verbatim}
 /summon <entity> [<pos>] [<nbt>]
@@ -383,7 +178,7 @@ Killing the player who is running the script is easy. Simply run \texttt{/kill}.
 /minecraft:kill [<targets>]
 \end{verbatim}
 
-\subsubsection*{Target Selectors}
+\subsubsection*{Target Selectors} \label{subsec:target-selectors}
 
 The simplest target selector is \texttt{@s}. This will select the entity that executed the command. If you run a command normally, this will be your player. The next simplest selector is \texttt{@p}. This will select the player nearest to the location that the command was executed at. If you run a command normally, this will be your player. The target selector \texttt{@n} selects the nearest entity. Next is \texttt{@a}. This will select all players on the server. Clearly this is dangerous on its own. Finally, there is \texttt{@e}. This will select all entities in loaded chunks on the server. This is extremely dangerous. Exercise extreme caution.
 
@@ -423,7 +218,7 @@ As mentioned before, it can be challenging to write some commands, especially th
 
 \subsection{Script Commands} \label{subsec:script-commands}
 
-In order to test scripts, you must be able to attach them to things on the server. Everything you need will be contained within the \texttt{/script} command, which has the convenient alias of \texttt{/s}. For simplicity, I will always use the non-aliased versions. Script commands follow the following pattern.
+In order to test scripts, you must be able to attach them to things on the server. Everything you need will be contained within the \texttt{/script} command, which has the convenient alias of \texttt{/s}. Script commands follow the following pattern.
 
 \begin{verbatim}
 /script <action> <type> [type-parameters] [action-parameters]
@@ -432,8 +227,97 @@ In order to test scripts, you must be able to attach them to things on the serve
 % TODO: create an action/actionaparameter table
 %       create a type/typeparameter table
 
+Script types and their corresponding parameters are summarized below. The most important script types are interact, walk, area, and entity. These will be covered in detail in section \ref{sec:triggers}. The last three will be discussed much later.
+
+\begin{tablebox}[Script Types]
+    \rowcolors{2}{rowgray}{}
+    % \begin{longtable}{@{} p{2.5cm} p{1.25cm} p{\dimexpr\linewidth-5.5cm\relax} @{}}
+    \begin{tabularx}{\textwidth}{@{} L{2.5cm} L{1.25cm} L{\dimexpr\linewidth-5.25cm\relax} @{} }
+    \hiderowcolors
+    \textbf{Type} & \textbf{Alias} & \textbf{Parameters}  \\
+    \showrowcolors
+    \midrule
+    \endfirsthead
+    \textbf{Type} & \textbf{Alias} & \textbf{Parameters}  \\
+    \midrule
+    \endhead
+    \texttt{interact} & \texttt{i} & \texttt{[<position> <world>]}  \\ 
+    \texttt{walk} & \texttt{w} & \texttt{[<position> <world>]}  \\ 
+    \texttt{ground} & \texttt{g} & \texttt{[<position> <world>]}  \\ 
+    \texttt{entity} & \texttt{e} & \texttt{[<uuid>]}  \\ 
+    \texttt{area} & \texttt{a} & \texttt{<area>}  \\ 
+    \texttt{function} & \texttt{f} & \texttt{<namespace> <function>}  \\ 
+    \texttt{method} & \texttt{m} & \texttt{<namespace> <Type> <method>}  \\
+    \texttt{constructor} & \texttt{c} & \texttt{<namespace> <constructor-signature>}  \\ 
+    \end{tabularx}
+    % \end{longtable}
+\end{tablebox}
+
+The actions and their corresponding parameters are summarized in the table below. The first five will be very important for testing scripts. The rest are included for reference.
+
+\begin{tablebox}[Script Actions]
+    \rowcolors{2}{rowgray}{}
+    \begin{tabularx}{\textwidth}{@{} L{1.3cm} L{0.75cm} L{2cm} X @{}}
+    \hiderowcolors
+    \textbf{Action} & \textbf{Alias} & \textbf{Parameters} & \textbf{Description} \\
+    \showrowcolors
+    \midrule
+    \endfirsthead
+    \textbf{Action} & \textbf{Alias} & \textbf{Parameters} & \textbf{Description} \\
+    \midrule
+    \endhead
+    \texttt{create} & \texttt{c} & \texttt{[line]} & Inserts a line at the specified line number. If no line number is given, appends to the end of the script. \\
+    \texttt{remove} & \texttt{r}  & \texttt{[line]} & Removes a line at the specified line number. If no line number is given, removes the whole script. \\
+    \texttt{view}  & \texttt{v} & & Prints the script in chat. \\
+    \texttt{import} & \texttt{i} & \texttt{<id>} & Imports a script from the specified Hastebin link or identifier. See next section for more information. \\
+    \texttt{export} & \texttt{e} &  & Exports a script to a Hastbin link. Useful for editing or viewing long scripts. \\
+    \texttt{undo} &  &  & Undo the last create, remove, import, or export. Does not work with functions, methods, or constructors. Can store up to 10 actions. Like WorldEdit, the undo stack will not be destroyed on logout, but will be destroyed on server restart. \\
+    \texttt{copy} &  & \texttt{<type>} & Copies all scripts in your WorldEdit selection of the specified type (interact, walk, or ground) to your clipboard. \\
+    \texttt{paste} &  & \texttt{<type>} & Pastes the scripts from your clipboard as a specified type. The locations will be relative to the position you copied them similar to WorldEdit. \\
+    \texttt{count} &  & \texttt{<type>} & Counts the number of scripts in your WorldEdit selection of the specified script type. \\
+    \texttt{wipe} &  & \texttt{<type>} & Removes all scripts in your WorldEdit selection of the specified type. 
+    \end{tabularx}
+\end{tablebox}
+
+\begin{thinkbox}
+Practice using script commands.
+\begin{enumerate}
+    \item Try running \texttt{/s c i @player Hello!} and right clicking on a block. Right click it again to trigger the script.
+    \item Try running \texttt{/s r i} and right clicking the same block.
+    \item Try doing the same thing but by specifying the block through position and world name. (You are likely in Zero on the Test Server.)
+    \item Try running \texttt{/s i i olafubemis} and right clicking a block.
+    \item View the script. You may not understand it yet, but try to guess how it works.
+    \item Export the script and open the link.
+\end{enumerate}
+\end{thinkbox}
+
 \section{Hastebin}
-\blindtext
+\href{https://paste.minr.org}{Hastebin} has been the canonical interface to write MSC for years. It is definitely a lot easier for editing scripts than using \texttt{create} and \texttt{remove}. It is certainly not perfect, but it is a good place to start.
+
+To use Hastebin, navigate to \href{https://paste.minr.org}{paste.minr.org} on your favorite browser. You can now type a script onto this webpage. Below is an example script you can try typing in (or just copy-paste).
+
+\begin{msccode}{Simple Script}
+@player Hello &a{{player}}&r!
+@delay 1s
+@player 1+2={{1+2}}
+\end{msccode}
+
+Press the "Save" button or use the keyboard shortcut \texttt{ctrl+s} to save the script and generate a unique identifier for the script. Copy the URL and import it onto a block. You can edit the script by clicking the "Duplicate \& Edit" button or use \texttt{ctrl+d}. You can make a new script with the "New" button or use \texttt{ctrl+n}. To view the script as a raw textfile (which is useful for saving it as a file) click the "Just Text" button or use \texttt{ctrl+shift+r}. That's all there is. It's a very basic text editor with minimal features. This is the editor that most MSC scripters use, and you can use this to accomplish any arbitrary scripting goal. However, trying to do anything even slightly complicated in Hastebin will quickly become irritating. You can use Hastebin for simple things like basic dialogue or teleport scripts. I recommend using Visual Studio Code for everything else.
+
+If you are not convinced, I will list some of the downsides of using Hastebin.
+\begin{enumerate}
+    \item When you write a large scripting project, there will be several scripts, and it is very hard to track the links. You could put them in bookmark folders or in a spreadsheet, but it's still very inconvenient.
+    \item You often want to edit multiple scripts at once. With Hastebin, you will have to memorize which browser tab contains which script. A lot of time will be wasted swapping between tabs.
+    \item It's easy to accidentally close a browser tab and lose the script. You can get it back with \texttt{ctrl+shift+t} usually or through your browser menu, but it's a hassle.
+    \item If you closed a tab a long time ago and you really want to recover the script, you will have to pain-stakingly look through your browser history and check each Hastebin link.
+    \item There is no concept of source control. This would let you create new versions of scripts while still being able to restore previous versions. This would also make collaborating much easier.
+    \item There is no syntax highlighting. Hastebin will try to guess which language your script is written in, but MSC is not a recognized language so it will just guess something wrong and highlight it based off whatever it chooses. You don't get highlighting or type checking as you write, which will help prevent syntax errors.
+    \item There is no way to script offline. This isn't a big deal since you can't test scripts without being connected to the server anyways, but there are situations where this would be nice.
+    \item There is currently a horrible bug in the Hastebin editor. Select a chunk of code and press tab. In code-oriented text editors, this would indent the selected lines. In Hastebin, it replaces everything with a tab character and somehow breaks the undo stack, meaning you permanently lost your code. You will only be able to restore what you saved last.
+    \item There are many missing features that you would want in a text editor: find and replace, keyboard shortcuts/macros, multi-cursors, multi-line indent/unindent, autoformat, etc.
+\end{enumerate}
+
+These are issues you will eventually encounter after you get into scripting. If you start using other Visual Studio Code early on, you will save yourself from the headaches of Hastebin later on. There is a bit of overhead in setting up Visual Studio Code, which is probably why it isn't widely recommended for people new to scripting, but I think it is worth building good habits as early as possible.
 
 \section{Visual Studio Code}
 \blindtext
@@ -449,7 +333,7 @@ In order to test scripts, you must be able to attach them to things on the serve
 
 \chapter{The Basics}
 
-\section{Triggers}
+\section{Triggers} \label{sec:triggers}
 \blindtext
 
 \section{What is a Script?}
@@ -483,6 +367,7 @@ In order to test scripts, you must be able to attach them to things on the serve
 \blindtext
 
 \section{Lists}
+\blindtext
 
 \section{Control Flow}
 \blindtext
@@ -658,7 +543,7 @@ In order to test scripts, you must be able to attach them to things on the serve
 % \end{nmscode}
 
 \begin{versionhistory}
-    \vhEntry{1.0}{\today}{Tetration}{First Publication}
+    \vhEntry{0.1}{\today}{Tetration}{First Publication}
 \end{versionhistory}
 
 \end{document}

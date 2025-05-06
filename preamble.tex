@@ -1,0 +1,301 @@
+\usepackage[margin=1.2in]{geometry}
+\usepackage[cache=false]{minted}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+\usepackage{amssymb}
+\usepackage{ifthen}
+\usepackage[most, minted, skins]{tcolorbox}
+\tcbuselibrary{listings,breakable}
+\tcbuselibrary{many}
+
+\usepackage{a4wide}
+\usepackage{array}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\renewcommand{\arraystretch}{1.2}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{ltablex}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{blindtext}
+\usepackage{tocloft}
+
+\usepackage[hidelinks,
+    colorlinks = true,
+    linkcolor = blue,
+    urlcolor  = blue,
+    citecolor = black,
+    anchorcolor = black]{hyperref}
+\usepackage{vhistory}
+
+% \immediate\write18{which pygmentize > pygmentize-path.txt}
+% \pagecolor{gray}
+% \color{white}
+\definecolor{bgdark}{HTML}{2E3440}  % Nord-ish dark gray-blue
+\definecolor{fgtext}{HTML}{ECEFF4} % Near-white
+\definecolor{arrowcolor}{HTML}{88C0D0}
+\definecolor{darkline}{HTML}{4C566A}
+
+\definecolor{codebg}{HTML}{2E3440}
+\definecolor{codelinebg}{HTML}{3B4252}
+\definecolor{codelinefg}{HTML}{88C0D0}
+\definecolor{codefg}{HTML}{ECEFF4}
+\definecolor{arrowdark}{HTML}{88C0D0}
+\definecolor{arrowlight}{HTML}{333333}
+\definecolor{bglight}{HTML}{FAFAFA}
+\definecolor{bgdark}{HTML}{242424}
+\definecolor{linenobgdark}{HTML}{2A2D2E}
+\definecolor{borderdark}{HTML}{2A2D2E}
+
+
+
+\newboolean{darkmodeon}
+\setboolean{darkmodeon}{true}   % <-- set to false for light mode
+
+\ifthenelse{\boolean{darkmodeon}}
+% Dark Mode
+% {\newtcblisting{msccode}{
+%   minted language=msc2,
+%   minted style=msc_dark,
+%   minted options={
+%       fontsize=\normalsize,
+%       linenos,
+%       numbersep=1mm,
+%       breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
+%       breaklines=true,
+%   },% <-- put other minted options inside the brackets
+%   overlay={%
+%       \begin{tcbclipinterior}
+%           \fill[linenobgdark] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+%       \end{tcbclipinterior}
+%   },
+%   colback=bgdark,
+%   colframe=borderdark,
+%   before skip=5pt plus 2pt,
+%   breakable,
+%   enhanced,% <-- put other tcolorbox options here
+%   listing only
+%   }}
+{\newtcblisting{msccode}[2][]{% 
+minted language=msc2,
+minted style=msc_dark,
+minted options={
+    fontsize=\normalsize,
+    linenos=false, % Disable line numbers
+    numbersep=1mm,
+    breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
+    breaklines=true,
+},
+colback=bgdark,
+colframe=borderdark,
+before skip=5pt plus 2pt,
+breakable,
+enhanced,
+title=\textbf{#2}, % Set the title from the argument
+colbacktitle=gray!35!purple!15,
+listing only,
+#1
+}}
+% Light Mode
+{\newtcblisting{msccode}{
+  minted language=msc2,
+  minted style=msc_light,
+  minted options={
+      fontsize=\normalsize,
+      linenos,
+      numbersep=1mm,
+      breaksymbolleft=\textcolor{arrowlight}{\tiny$\hookrightarrow$},
+      breaklines=true,
+  },% <-- put other minted options inside the brackets
+  overlay={%
+      \begin{tcbclipinterior}
+          \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+  },
+  colback=bglight,
+  colframe=black!70,
+  before skip=5pt plus 2pt,
+  breakable,
+  enhanced,% <-- put other tcolorbox options here
+  listing only
+  }}
+
+\ifthenelse{\boolean{darkmodeon}}
+  % Dark Mode
+  {\newtcblisting{nmscode}{
+    minted language=nms,
+    minted style=msc_dark,
+    minted options={
+        fontsize=\normalsize,
+        linenos,
+        numbersep=1mm,
+        breaksymbolleft=\textcolor{arrowdark}{\tiny$\hookrightarrow$},
+        breaklines=true,
+    },% <-- put other minted options inside the brackets
+    overlay={%
+        \begin{tcbclipinterior}
+            \fill[linenobgdark] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+        \end{tcbclipinterior}
+    },
+    colback=bgdark,
+    colframe=borderdark,
+    before skip=5pt plus 2pt,
+    breakable,
+    enhanced,% <-- put other tcolorbox options here
+    listing only
+    }}
+  % Light Mode
+  {\newtcblisting{nmscode}{
+    minted language=nms,
+    minted style=msc_light,
+    minted options={
+        fontsize=\normalsize,
+        linenos,
+        numbersep=1mm,
+        breaksymbolleft=\textcolor{arrowlight}{\tiny$\hookrightarrow$},
+        breaklines=true,
+    },% <-- put other minted options inside the brackets
+    overlay={%
+        \begin{tcbclipinterior}
+            \fill[gray!25] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+        \end{tcbclipinterior}
+    },
+    colback=bglight,
+    colframe=black!70,
+    before skip=5pt plus 2pt,
+    breakable,
+    enhanced,% <-- put other tcolorbox options here
+    listing only
+}}
+
+% \renewcommand{\theFancyVerbLine}{\ttfamily
+%   \textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}
+
+\ifthenelse{\boolean{darkmodeon}}
+{\renewcommand{\theFancyVerbLine}{\ttfamily
+\textcolor[HTML]{707880}{\small{\arabic{FancyVerbLine}}}}}
+{\renewcommand{\theFancyVerbLine}{\ttfamily
+\textcolor[rgb]{0,0,0}{\small{\arabic{FancyVerbLine}}}}}
+
+%%% Text Boxes
+
+\newtcolorbox{satbox}[2][]{%
+  enhanced,colback=white,colframe=black,coltitle=black,
+  sharp corners,boxrule=0.4pt,
+  fonttitle=\itshape,
+  attach boxed title to top left={yshift=-0.3\baselineskip-0.4pt,xshift=2mm},
+  boxed title style={tile,size=minimal,left=0.5mm,right=0.5mm,
+    colback=white,before upper=\strut},
+  title=#2,#1
+}
+
+\tcbset{
+    enhanced,
+    drop shadow,
+    breakable,
+    attach boxed title to top left={
+        xshift=0.5cm,
+        yshift=-\tcboxedtitleheight/2},  % <---
+    top=4mm,
+    coltitle=black,
+    colbacktitle=gray!35!green!10,
+    beforeafter skip=\baselineskip,
+}
+\newenvironment{thinkbox}{%
+    \begin{tcolorbox}[title=\textbf{Stop and Think}]%
+    }{
+    \end{tcolorbox}
+    }
+
+
+% %%% tables
+% \newtcolorbox{actiontablebox}[1][]{%
+%   enhanced,
+%   sharp corners,
+%   colback=white,
+%   colframe=black,
+%   boxrule=0.4pt,
+%   breakable,
+%   title={#1},
+%   fonttitle=\bfseries,
+%   coltitle=black,
+%   colbacktitle=gray!15,
+%   before skip=10pt,
+%   after skip=10pt,
+%   left=2mm,
+%   right=2mm,
+%   top=2mm,
+%   bottom=2mm,
+% }
+
+% % Define a column type for tabularx for better spacing
+% \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}  % fixed width
+% \newcolumntype{X}{>{\raggedright\arraybackslash}X}        % flexible width
+
+% Define a general-purpose boxed table environment
+% \newtcolorbox{tablebox}[1][]{%
+%   enhanced,
+%   sharp corners,
+%   colback=white,
+%   colframe=black,
+%   boxrule=0.4pt,
+%   breakable,
+%   title={#1},
+%   fonttitle=\bfseries,
+%   coltitle=black,
+%   colbacktitle=gray!35!blue!10,
+%   before skip=10pt,
+%   after skip=10pt,
+%   left=2mm,
+%   right=2mm,
+%   top=2mm,
+%   bottom=2mm,
+% }
+\newtcolorbox{tablebox}[1][]{%
+  enhanced,
+  breakable,
+  sharp corners,
+  colback=white,
+  colframe=black,
+  boxrule=0.4pt,
+  title={#1},
+  fonttitle=\bfseries,
+  coltitle=black,
+  colbacktitle=gray!35!blue!10,
+  before skip=10pt,
+  after skip=10pt,
+  left=2mm,
+  right=2mm,
+  top=2mm,
+  bottom=2mm,
+  % Important part:
+%   attach boxed title to top left={yshift=-2mm},
+  % This allows longtable to break inside the box
+  before upper={\rowcolors{2}{rowgray}{}},
+  listing only=false,
+}
+
+% Column types
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}  % fixed width
+\newcolumntype{X}{>{\raggedright\arraybackslash}X}        % flexible width
+
+\definecolor{rowgray}{gray}{0.95} % Light gray for alternating rows
+\newcommand{\rowcoloralt}{\rowcolors{2}{rowgray}{}}
+
+%%% Preface environment
+% ===== Define abstract environment =====
+\newcommand{\prefacename}{Preface}
+\newenvironment{preface}{
+    \vspace*{\stretch{2}}
+    {\noindent \bfseries \Huge \prefacename}
+    \begin{center}
+        \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+        \thispagestyle{plain}
+    \end{center}%
+}
+{\vspace*{\stretch{5}}}
