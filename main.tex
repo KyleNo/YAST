@@ -227,7 +227,7 @@ In order to test scripts, you must be able to attach them to things on the serve
 % TODO: create an action/actionaparameter table
 %       create a type/typeparameter table
 
-Script types and their corresponding parameters are summarized below. The most important script types are interact, walk, area, and entity. These will be covered in detail in section \ref{sec:triggers}. The last three will be discussed much later.
+Script types and their corresponding parameters are summarized below. The most important script types are interact, walk, area, and entity. These will be covered in detail in section \ref{sec:triggers}. The last three will be discussed much later. For any optional argument here, if you omit the argument, you must specify the block or entity by right clicking it after you run the command.
 
 \begin{tablebox}[Script Types]
     \rowcolors{2}{rowgray}{}
@@ -245,7 +245,7 @@ Script types and their corresponding parameters are summarized below. The most i
     \texttt{walk} & \texttt{w} & \texttt{[<position> <world>]}  \\ 
     \texttt{ground} & \texttt{g} & \texttt{[<position> <world>]}  \\ 
     \texttt{entity} & \texttt{e} & \texttt{[<uuid>]}  \\ 
-    \texttt{area} & \texttt{a} & \texttt{<area>}  \\ 
+    \texttt{area} & \texttt{a} & \texttt{<region>}  \\ 
     \texttt{function} & \texttt{f} & \texttt{<namespace> <function>}  \\ 
     \texttt{method} & \texttt{m} & \texttt{<namespace> <Type> <method>}  \\
     \texttt{constructor} & \texttt{c} & \texttt{<namespace> <constructor-signature>}  \\ 
@@ -317,13 +317,41 @@ If you are not convinced, I will list some of the downsides of using Hastebin.
     \item There are many missing features that you would want in a text editor: find and replace, keyboard shortcuts/macros, multi-cursors, multi-line indent/unindent, autoformat, etc.
 \end{enumerate}
 
-These are issues you will eventually encounter after you get into scripting. If you start using other Visual Studio Code early on, you will save yourself from the headaches of Hastebin later on. There is a bit of overhead in setting up Visual Studio Code, which is probably why it isn't widely recommended for people new to scripting, but I think it is worth building good habits as early as possible.
+These are issues you will eventually encounter after you get into scripting. If you start using Visual Studio Code early on, you will save yourself from the headaches of Hastebin later on. There is a bit of overhead in setting up Visual Studio Code, which is probably why it isn't widely recommended for people new to scripting, but I think it is worth building good habits as early as possible.
 
 \section{Visual Studio Code}
-\blindtext
+People tend to think that more complicated tools are harder to use. The opposite is often the case. More complicated tools allow for complex tasks to be abstracted into simple ones. However, this isn't always the case. Creation tools like Adobe Creative Cloud applications, Blender, Maya, Autodesk applications, etc. have very steep learning curves, and beginners will often feel overwhelmed. Visual Studio Code (VSC) at its core, is simply a text editor. If that's all you want to do with it, it does a very good job. The most valuable aspect of VSC is it's extensibility. Pretty much any coding related task has an extension you can install to make it easier. Extensions are powerful modifications that can automate tasks and improve quality of life. Before we get too far ahead of ourselves: first things first, you need to install VSC.
+
+\subsection{VSC Installation}
+I expect that you know how to install programs on your own operating system. You can find the installer \href{https://code.visualstudio.com/Download}{here}. The default options are all probably fine. I would recommend checking the boxes to add "Open with Code" actions to context menus if you're on Windows. You will want to install the Minr Scripts VSC extension.
+
+\subsection{Minr Scripts Extension}
+The easiest way is to open the extensions sidebar (building blocks icon) and search "Minr". You can read about the features on the \href{https://marketplace.visualstudio.com/items?itemName=Lightwood13.msc}{Visual Studio Marketplace page} and on \href{https://forums.minr.org/threads/visual-studio-code-extension-for-minr-scripts.6175/}{Lightwood13's forum post}.
+
+To summarize, the extension provides syntax highlighting, upload and download shortcuts, code completion, function signatures, error highlighting, namespace definition files, and more. Most of these are self-explanatory; some won't be important until we get deeper into the Tetorial.
+
+\subsection{Getting Started}
+The easiest way to use VSC is have a folder with all relevant files that you wish to work on. Create and open an empty folder to contain your scripts. For now, I recommend creating a scratch folder within this folder to house the scripts you will write for this Tetorial and other test scripts you have. When you have a big project you want to work on later, you can create a folder for it. We will discuss the details more when we get to namespaces.
+
+Create a file called \texttt{helloworld.msc}. Type or paste the following script into the file. \texttt{ctrl+s} to save, \texttt{alt+u} to upload the script and automatically copy the script URL to your clipboard.
+
+\begin{msccode}{helloworld.msc}
+@player Hello World!
+\end{msccode}
+
+You can try importing the script onto the Test Server. You can also try copying this identifier to your clipboard: \texttt{abavujoxim}. Now use \texttt{alt+d} to download the script. You can save this file if you want, but you may want to rename it.
+
+This should be enough to get started with VSC. You can start reaping the benefits of a more powerful editor and the ability to manage your file structure.
 
 \section{Source Control}
-\blindtext
+Source control is a system that tracks and manages changes to files over time. This is something that is extremely helpful for when you want to try out different versions of your scripts (which may require making changes across several files) without making backups manually. It also enables efficient collaboration.
+
+\subsection{Git}
+The tool to use for source control is \href{https://git-scm.com/}{Git}. You can install Git on your computer, and use it to upload your code to a remote repository (i.e. some data server). You can use \href{https://github.com}{GitHub} as your remote repository for free. There are many guides for Git, so I will not cover this comprehensively, but I will try to at least make sure you understand why Git is valuable.
+
+I will not go over every Git command and their usages. If you want to see a summary of Git commands see \href{https://education.github.com/git-cheat-sheet-education.pdf}{here}. You can do most things with the VSC Git interface located on the sidebar. \href{https://code.visualstudio.com/docs/sourcecontrol/overview}{Here} is a quick tutorial on using Git with VSC When you first install, you will need to setup the Git configuration, which is needed to sign your commits. When you decide to upload a project with Git, you should initialize the repository and associate it with a remote repository. You can create the remote repository on GitHub. Generally, you will add files, commit the changes to save a snapshot, and push the changes to the remote repository. If you are using multiple computers and/or collaborating with another scripter, you will pull and merge the remote code to your local computer. If you want to try out different versions of your script, you can use branches.
+
+The value of Git should be clear. You can backup your code, collaborate with others, test different versions, and restore previous versions. It's pretty simple to get started, and most of the important features are fairly accessible, even if you don't have a lot of technical experience.
 
 \section{Tips}
 \blindtext
