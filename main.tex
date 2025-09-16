@@ -7,7 +7,7 @@
 \pagestyle{empty}
 
 \title{Yet Another Scripting Tetorial \\
-        \large For Minr Scripts 2.4.7}
+        \large For Minr Scripts \mscv}
 \author{Tetration}
 \date{\vhCurrentDate \\Version \vhCurrentVersion}
 \maketitle
@@ -23,7 +23,7 @@ Minr Scripts (MSC) is a uniquely powerful tool for map makers to bring their cre
 
 MSC is something many people find intimidating. Some people think you need a computer science degree or 100s of hours of programming experience to conquer MSC. Some people just don't know where to start. I want MSC to be as accessible as possible to the Greenie community. Of course, there are MSC tutorials scattered around the Minr resource ecosystem. Most are guides on using specific features, but a couple are made for beginners.
 
-On the forums, only the \href{https://forums.minr.org/threads/scripts-with-rman-1-basic-script-understanding.3193/}{"Scripts with rman!"} series is designed to be used by people who are complete beginners. This is an effective tutorial series for getting started quickly, but there is a lot of foundational information that I think should be built up to truly master MSC. It can also be annoying to navigate between each installment in the series, since they are located in separate forum posts.
+On the forums, only the \href{https://forums.minr.org/threads/scripts-with-rman-1-basic-script-understanding.3193/}{``Scripts with rman!''} series is designed to be used by people who are complete beginners. This is an effective tutorial series for getting started quickly, but there is a lot of foundational information that I think should be built up to truly master MSC. It can also be annoying to navigate between each installment in the series, since they are located in separate forum posts.
 
 Another notable scripting tutorial that exists is the in the \href{https://msc-documentation.readthedocs.io/en/latest/tutorial.html}{documentation}. This tutorial is a bit more comprehensive, but its presentation is a little overwhelming. It also lacks interactivity; there are very few examples of scripts that are interesting enough for a learner to be motivated to try and run on their own. The examples that exist are somewhat contrived and don't particularly encourage the reader to think about what might be possible with scripts or the challenges of implementation.
 
@@ -63,7 +63,7 @@ With all that said, I hope this Tetorial will help you build a foundation for ma
 \pagestyle{plain}
 
 \chapter{Environment}
-Before we can start scripting, we need to discuss the environment. By "environment," I mean the things that scripts are embedded in, the things that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter. However, if you are already very familiar with the Minr Test Server and Vanilla Minecraft commands, you can skip to section \ref{subsec:script-commands}.
+Before we can start scripting, we need to discuss the environment. By ``environment,'' I mean the things that scripts are embedded in, the things that scripts affect and interfaces which you will write, save, and export scripts in. This is an important topic to get through. I do not recommend skipping this chapter. However, if you are already very familiar with the Minr Test Server and Vanilla Minecraft commands, you can skip to section \ref{subsec:script-commands}.
 
 \section{Welcome to the Test Server!}
 The test server is for Green+ player only. If you are reading this and are not Green+, go beat HC and come back. The server allows you to test out things that can only be done by staff on the main server. The most common things you might want to test are scripts, world edit commands, and various Vanilla Minecraft commands. The Test Server is the quintessential scripting tool. You need to test your scripts to make sure that they are importable and work correctly. To join the Test Server, go to \href{https://forums.minr.org/pages/testserver/}{this forum page}. Familiarize yourself with the rules and follow the instructions to become whitelisted and op'ed.
@@ -78,7 +78,7 @@ We will briefly cover commands. Some commands will be Vanilla, some will be for 
 
 This syntax might seem overwhelming, but it's actually fairly straightforward. The first word in a command (which follows the \texttt{/}) is the command name. Everything that follow the command name is an argument. Arguments that aren't enclosed by brackets (often called decorators in this context) like \texttt{only} in the above example are written in the command directly. Arguments enclosed in angle brackets like \texttt{<targets>} are required arguments. When you write the command, you must subtitute this with an expression that represents that argument type. Arguments enclosed in square brackets indicate that they are optional. In this example, \texttt{[<criterion>]} is optional, but the angled brackets indicate that criterion should be substituted rather than written directly. The pipe character represents a choice. In the example, \texttt{grant|revoke} means you should either write \texttt{grant} or \texttt{revoke} for that argument of the command. The parenthesis around them are just there to indicate that they are grouped as an argument. 
 
-This paragraph is included for completeness and isn't necessary for you to understand completely. You may see ellipses (\texttt{...}) in command syntaxes. These should mean that a full command or subcommand should replace the ellipses, but sometimes people will use ellipses to just mean "something goes here." Finally, there is also a notation that is only used for \texttt{execute} commands. It looks like \texttt{... align <axes> -> execute}. This just means that another execute command needs to be chained after the command.
+This paragraph is included for completeness and isn't necessary for you to understand completely. You may see ellipses (\texttt{...}) in command syntaxes. These should mean that a full command or subcommand should replace the ellipses, but sometimes people will use ellipses to just mean ``something goes here.'' Finally, there is also a notation that is only used for \texttt{execute} commands. It looks like \texttt{... align <axes> -> execute}. This just means that another execute command needs to be chained after the command.
 
 There is also some nuance with argument types that you don't need to understand for now, but the most important thing to note is that arguments can contain spaces. In the command below, the argument \texttt{<location>} has type \texttt{vec3} (three numbers separated by spaces).
 
@@ -121,9 +121,9 @@ The first thing you will want to do is go into creative and spectator modes. You
 
 It is usually very convenient to have a flat platform to test scripts on. The easiest way to get this platform is with WorldEdit. Simply fly to one corner of where you want the platform to be and run \texttt{//pos1}, then fly to the opposite corner and run \texttt{//pos2}, and set the selection to a block of your choosing with \texttt{//set <pattern>} where \texttt{<pattern>} can be a block of your choosing (please do not choose something with gravity like sand or water or block entities like furnaces or beehives). A $100 \times 100$ platform should be enough for a long time. This is about all the world edit we'll cover in this guide. If you want to learn more there are many resources. % maybe link some in an appendix
 
-\subsubsection*{Defining a region}
+\subsubsection*{Defining a region} \label{sec:defrg}
 
-While you have this area selected, you may as well create a region. Run \texttt{//expand vert} to make the selection cover every y level. Then do \texttt{/rg define <id> [<owners>]}, where \texttt{<id>} is the name of the region and \texttt{<owners>} are the players you wish to be the owners of the region (you should include yourself). The region will be defined based on your current WorldEdit selection. This won't be too helpful in preventing people from messing with your region since ops bypass region protection by default on the Test Server, but it is good to know how to define a region and there may be flags you want to set.
+While you have this area selected, you may as well create a WorldGuard region. Run \texttt{//expand vert} to make the selection cover every y level. Then do \texttt{/rg define <id> [<owners>]}, where \texttt{<id>} is the name of the region and \texttt{<owners>} are the players you wish to be the owners of the region (you should include yourself). The region will be defined based on your current WorldEdit selection. This won't be too helpful in preventing people from messing with your region since ops bypass region protection by default on the Test Server, but it is good to know how to define a region and there may be flags you want to set.
 
 \subsubsection*{Teleporting}
 
@@ -218,7 +218,7 @@ As mentioned before, it can be challenging to write some commands, especially th
 
 \subsection{Script Commands} \label{subsec:script-commands}
 
-In order to test scripts, you must be able to attach them to things on the server. Everything you need will be contained within the \texttt{/script} command, which has the convenient alias of \texttt{/s}. Script commands follow the following pattern.
+In order to test scripts, you must be able to attach them to things on the server. Everything you need will be contained within the \texttt{/script} command, which has the convenient alias of \texttt{/s}. Script commands follow the following pattern. Note that this is not a Vanilla command, so there is no restriction on omitting optional arguments left of included optional arguments.
 
 \begin{verbatim}
 /script <action> <type> [type-parameters] [action-parameters]
@@ -302,7 +302,7 @@ To use Hastebin, navigate to \href{https://paste.minr.org}{paste.minr.org} on yo
 @player 1+2={{1+2}}
 \end{msccode}
 
-Press the "Save" button or use the keyboard shortcut \texttt{ctrl+s} to save the script and generate a unique identifier for the script. Copy the URL and import it onto a block. You can edit the script by clicking the "Duplicate \& Edit" button or use \texttt{ctrl+d}. You can make a new script with the "New" button or use \texttt{ctrl+n}. To view the script as a raw textfile (which is useful for saving it as a file) click the "Just Text" button or use \texttt{ctrl+shift+r}. That's all there is. It's a very basic text editor with minimal features. This is the editor that most MSC scripters use, and you can use this to accomplish any arbitrary scripting goal. However, trying to do anything even slightly complicated in Hastebin will quickly become irritating. You can use Hastebin for simple things like basic dialogue or teleport scripts. I recommend using Visual Studio Code for everything else.
+Press the ``Save'' button or use the keyboard shortcut \texttt{ctrl+s} to save the script and generate a unique identifier for the script. Copy the URL and import it onto a block. You can edit the script by clicking the ``Duplicate \& Edit'' button or use \texttt{ctrl+d}. You can make a new script with the ``New'' button or use \texttt{ctrl+n}. To view the script as a raw textfile (which is useful for saving it as a file) click the ``Just Text'' button or use \texttt{ctrl+shift+r}. That's all there is. It's a very basic text editor with minimal features. This is the editor that most MSC scripters use, and you can use this to accomplish any arbitrary scripting goal. However, trying to do anything even slightly complicated in Hastebin will quickly become irritating. You can use Hastebin for simple things like basic dialogue or teleport scripts. I recommend using Visual Studio Code for everything else.
 
 If you are not convinced, I will list some of the downsides of using Hastebin.
 \begin{enumerate}
@@ -323,10 +323,10 @@ These are issues you will eventually encounter after you get into scripting. If 
 People tend to think that more complicated tools are harder to use. The opposite is often the case. More complicated tools allow for complex tasks to be abstracted into simple ones. However, this isn't always the case. Creation tools like Adobe Creative Cloud applications, Blender, Maya, Autodesk applications, etc. have very steep learning curves, and beginners will often feel overwhelmed. Visual Studio Code (VSC) at its core, is simply a text editor. If that's all you want to do with it, it does a very good job. The most valuable aspect of VSC is it's extensibility. Pretty much any coding related task has an extension you can install to make it easier. Extensions are powerful modifications that can automate tasks and improve quality of life. Before we get too far ahead of ourselves: first things first, you need to install VSC.
 
 \subsection{VSC Installation}
-I expect that you know how to install programs on your own operating system. You can find the installer \href{https://code.visualstudio.com/Download}{here}. The default options are all probably fine. I would recommend checking the boxes to add "Open with Code" actions to context menus if you're on Windows. You will want to install the Minr Scripts VSC extension.
+I expect that you know how to install programs on your own operating system. You can find the installer \href{https://code.visualstudio.com/Download}{here}. The default options are all probably fine. I would recommend checking the boxes to add ``Open with Code'' actions to context menus if you're on Windows. You will want to install the Minr Scripts VSC extension.
 
 \subsection{Minr Scripts Extension}
-The easiest way is to open the extensions sidebar (building blocks icon) and search "Minr". You can read about the features on the \href{https://marketplace.visualstudio.com/items?itemName=Lightwood13.msc}{Visual Studio Marketplace page} and on \href{https://forums.minr.org/threads/visual-studio-code-extension-for-minr-scripts.6175/}{Lightwood13's forum post}.
+The easiest way is to open the extensions sidebar (building blocks icon) and search ``Minr''. You can read about the features on the \href{https://marketplace.visualstudio.com/items?itemName=Lightwood13.msc}{Visual Studio Marketplace page} and on \href{https://forums.minr.org/threads/visual-studio-code-extension-for-minr-scripts.6175/}{Lightwood13's forum post}.
 
 To summarize, the extension provides syntax highlighting, upload and download shortcuts, code completion, function signatures, error highlighting, namespace definition files, and more. Most of these are self-explanatory; some won't be important until we get deeper into the Tetorial.
 
@@ -354,24 +354,115 @@ I will not go over every Git command and their usages. If you want to see a summ
 The value of Git should be clear. You can backup your code, collaborate with others, test different versions, and restore previous versions. It's pretty simple to get started, and most of the important features are fairly accessible, even if you don't have a lot of technical experience.
 
 \section{Tips}
-\blindtext
+Before we conclude this chapter, let's cover a few helpful tips for optimizing your scripting workflow. First, just use VSC for all of your scripting projects. Anything bigger than a script that just does one or two commands or calls a function should be saved in case you ever need to edit it or reference it in the future. This may seem like a lot of overhead, but I guarantee that it will save you countless hours of hardship.
+
+For organizing your scripts, be sure to utilize folders/directories on your computer. Don't just put all your scripts in a massive folder; make a folder for each project and add subfolders as necessary. There are some features in the VSC plugin that require certain folder structures, but we will cross that bridge when we get to it.
+
+You may also find it useful to make a ``util'' (short for utility) which contains useful scripts that you may wish to reuse. You also will likely want a folder for script tests so you don't clutter your projects with scripts that aren't used or your root scripts folder which should only contain folders.
 
 \section{Summary}
-\blindtext
+You made it to the end of the first chapter! This should be all the prerequisite background knowledge that you need to get started with scripts. So far we have covered Vanilla Minecraft commands, script-specific commands, Hastebin, VS Code, source control, and a few extra tips. You should have a space set up on the Test Server, be familiar with commands, and have VS Code installed with the Minr Scripts plugin. This should be a solid foundation for the next chapter which will cover scripting basics.
 
 \chapter{The Basics}
 
-\section{Triggers} \label{sec:triggers}
-\blindtext
+This chapter will cover fundamental concepts in Minr Scripts. I will assume that you have little to no programming knowledge, so this will be quite in-depth. We will discuss how scripts are activated, how scripts work, basic actions that scripts can do, and manipulating data in scripts.
 
-\section{What is a Script?}
-\blindtext
+\section{What are Minr Scripts?}
+In Vanilla Minecraft, the best tools available for making interactive experiences are command blocks. These are blocks where you can paste in commands and they will run the command when powered by redstone. These are powerful and helpful for making maps, but they are extremely hard to amend and debug. Additionally, they also need to take up physical space in the world and rely on redstone mechanics which can be difficult to create logic for. Many maps built in the early days of Minr relied on command blocks, and the difficulty of maintaining them as commands change and maps became more complicated created a need for a scripting language to replicate and extend the functionality of command blocks. Over the years, this has evolved into what we now know as MSC \mscv.
+
+There is a bit more nuance, but for now think of a script in MSC as a program saved on the server that is associated with something in the physical Minecraft world. Scripts are activated in various ways and can perform nearly every action that command blocks can and more.
+
+\section{Triggers} \label{sec:triggers}
+``Triggers'' are mechanisms that cause scripts to run. There are several types of triggers in MSC: interact, walk/ground, area, and entity. Scripts can also be activated from other scripts via functions, methods, and constructors, but we will save this for later.
+
+\subsection{Interact}
+
+Interact scripts are associated with individual block positions in the world. If there is a block at the position the interact script is located, then you can activate the script by right-clicking or left-clicking. However, this isn't the only way that interact scripts can be triggered. If you directly cause a block state update, it will also count as an interaction. For instance, putting an interact script on a pressure plate will allow you to activate it by right-clicking, left-clicking, or stepping on it to power it. However, dropping an item on it, shooting an arrow onto it, and stepping off of it do not count as interactions. The exact mechanics of this elude me, so I would avoid relying on any of these niche interactions. It is good to know about this in case it results in any unintended behavior.
+
+\subsection{Entity}
+
+Entity scripts are just like interact scripts, except that they are associated with entities rather than block locations. You cannot left click entities to trigger scripts, however. Keep in mind that things like item frames are technically entities, so you need to use the entity script type for them.
+
+\subsection{Walk and Ground}
+
+Walk and ground scripts, like interact scripts, are associated with block positions. For these, however, they are triggered by stepping on the scripted block. Walk scripts are specifically triggered when the bottom center of the player's hitbox enters any part of the block directly above the associated block position. Ground scripts are exactly the same as walk scripts except that they also require that the player is not in the air.
+
+Walk and ground scripts trigger when their conditions are met and won't be able to trigger again until the conditions are unmet. This can lead to some strange behavior with ground scripts: Consider a block with a ground script on it and a sideways chain directly above it. If you were to slowly walk onto the block and subsequently step up onto the chain and step back down onto the block, you could trigger the ground script up to 3 times.
+
+You can jump over both walk and ground scripts without triggering them, but walk scripts are a bit harder to avoid. Generally, you should just use walk scripts over ground scripts in almost every situation.
+
+\subsection{Area}
+
+Area scripts are like walk scripts except instead of covering just the one block above a block, they can cover an arbitrary WorldGuard region. Simply define a region as shown in \nameref{sec:defrg}, and you can associate the region with a script. When a player enters the region, the associated script will activate.
+
+\begin{thinkbox}
+\begin{enumerate}
+    \item When would you use each type of script trigger? Think of a couple examples of each being used in existing maps.
+    \item Is this set of triggers comprehensive enough? What other triggers would be convenient to have for building maps?
+    \item How many ways can you trigger an interact script on turtle eggs?
+    \item If I step on a mud block one block above a block that has a walk script attached to it will the walk script trigger?
+    \item Try importing some of the example scripts as different script types. You can use them to answer some of the above questions.
+\end{enumerate}
+\end{thinkbox}
+
+% weird examples: cracking turtle eggs triggers interact, soulsand one block above a walk/ground script counts, ground 
+
+\section{How do scripts work?}
+If you've never seen a programming language before, reading and writing scripts may be a little intimidating. You might be surprised how simple they are in actuality. This guide presumes zero programming knowledge, so if you have some this section might be worth skipping.
+
+Scripts are made up of individual lines. Each line of a script does one thing (ignoring control flow for now). A script line could run a command, print something to the player, create a variable, pause the execution for an amount of time, etc. Note that blank lines or lines that whose first non-whitespace character is \texttt{\#} (comments) are ignored. The Minr plugin will read the script line by line from the top down and when the script is executed, execute the lines one at a time in that same order. Each line consists of a script operator that begins with an \texttt{@} symbol. Each operator has it's own format for what the rest of the line can be. It will be more clear as we discuss each operator.
+
+\begin{msccode}{Example}
+# This is a comment. It will be ignored when the script is executed.
+    # This is also a comment. Preceding whitespace is ignored
+@player This is the first line that will be executed.
+@player This line will execute immediately after the above line.
+\end{msccode}
 
 \section{Running Commands}
-\blindtext
 
-\section{Printing to the Player}
-\blindtext
+Since you should have some prerequisite knowledge about Minecraft commands by now, we will start with running commands through scripts. There are 3 different script operators for running commands, which each have different uses. Note that not all commands are available. WorldEdit and WorldGuard commands cannot be run through scripts. Neither can sensitive commands like \texttt{op}. Note that for all commands you may omit the \texttt{/} that would normally precede commands in game.
+
+% \subsection{Bypass}
+\subsection{\texttt{@bypass}}
+
+The most useful and convenient script operator for commands is \texttt{@bypass <command>}. This operator runs the command as the player with elevated privileges. Even though non-staff members cannot normally run \texttt{tp} and \texttt{effect give} commands, with \texttt{@bypass} anyone who activates the script to be teleported or given effects. This should be your most used script operator for running commands.
+
+\begin{msccode}{Bypass Example}
+@bypass minecraft:tp @s 100 25 -100
+\end{msccode}
+
+% \subsection{Command}
+\subsection{\texttt{@command}}
+
+The script operator, \texttt{@command <command>}, is just like \texttt{@bypass}, but it does not run with elevated privileges. This makes the operator unsuitable for use in Minr maps since it doesn't affect players equally. This is useful for staff-only or Greenie-only scripts. For instance, \texttt{@command warp tp x} would only allow Greens+ to use the warp. You could use this operator for \texttt{/spawn} and not have any problems, but you might as well use \texttt{@bypass} instead.
+
+\begin{msccode}{Command Example}
+@command warp tp hof
+\end{msccode}
+
+% \subsection{Console}
+\subsection{\texttt{@console}}
+
+One disadvantage of the above operators is that the commands will try to run as if the player executed the commands. This means that if the command runs while the player is offline, it will silently fail. To address this, you can have the commands run as if they were executed through the console by using \texttt{@console <command>}. Keep in mind that commands run through the console that should do something to a specific player need to target the player; the \texttt{@s} target selector and commands where the executioner is assumed to be the target when a target player is omitted won't work.
+
+\begin{msccode}{Console Example}
+@console setblock 500 0 500 bedrock
+\end{msccode}
+
+\section{Communicating to the Player}
+
+Sending messages in chat is one of the most important features in MSC. It is also useful for helping you understand your scripts and resolving errors.
+
+\subsection{\texttt{@player}}
+
+To send a message to the player who executed the script, you can simply use \texttt{@player <message>}. This is simply demonstrated in the \texttt{helloworld.msc} example shown earlier:
+
+\begin{msccode}{helloworld.msc}
+@player Hello World!
+\end{msccode}
+
+All the text that follows ``\texttt{@player }'' will be sent to the player who executes the script when this line runs. Before the text is sent, however, it is formatted. Formatting options greatly enhance the expression capabilities of scripts. 
 
 \section{Delay}
 \blindtext
@@ -511,39 +602,45 @@ The value of Git should be clear. You can backup your code, collaborate with oth
 \blindtext
 
 
-% \begin{msccode}
-% # Long prng::uuidToSeed(String uuid, Long modulo)
+\begin{msccode}{test}
+# Long prng::uuidToSeed(String uuid, Long modulo)
 
-% @using prng
-% @player Hello? test
+@using prng
+@player Hello? test
 
-% @define Long seed = 0l
+@define Long seed = 0l
 
-% @define Boolean boo3 = true
+@define Boolean boo3 = true
 
-% @var myNamespace::myObj.myMethod(0, 2, 3)
+@var myNamespace::myObj.myMethod(0, 2, 3)
 
-% @var myNamespace::myFunction("test")
+@var myNamespace::myFunction("test")
 
-% @var seed = normalize(seed).toLowerCase().length()
+@var seed = normalize(seed).toLowerCase().length()
 
-% @define String hex = "0123456789abcdef"
-% @define String test_string = "seed is {{seed}}"
-% @define Int j = 0
+@define String hex = "0123456789abcdef"
+@define String test_string = "seed is {{seed}}"
+@define Int j = 0
 
-% @var uuid = uuid.replace("-", "").toLowerCase()
-% @define Int l = uuid.length()-9
+@var uuid = uuid.replace("-", "").toLowerCase()
+@define Int l = uuid.length()-9
 
-% @for Int i in list::range(0,l)
-%     @player loop iteration {{i}}
-%     @var j = l-i-1
-%     @var seed = (seed + hex.indexOf(uuid.substring(j, j+1)) * pow(16l, i)) % modulo
-% @done
+@for Int i in list::range(0,l)
+    @player loop iteration {{i}}
+    @var j = l-i-1
+    @var seed = (seed + hex.indexOf(uuid.substring(j, j+1)) * pow(16l, i)) % modulo
 
-% @define Box box = Box()
+    # comment with whitespace
+    @player test # no inline comments
+    @if seed % 10 == 0
+        @bypass slap {{player}}
+    @fi
+@done
 
-% @return seed
-% \end{msccode}
+@define Box box = Box()
+
+@return seed
+\end{msccode}
 
 % \begin{nmscode}
 % @namespace myNamespace

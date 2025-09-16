@@ -1,15 +1,17 @@
 from pygments.lexer import RegexLexer, bygroups, using, this
 from pygments.token import Keyword, Name, String, Number, Operator, Text, Punctuation, Comment
+import re
 
 class MscLexer(RegexLexer):
     name = 'MSC2'
     aliases = ['msc2']
     filenames = ['*.msc']
+    flags = re.MULTILINE
 
     tokens = {
         'root': [
             # Comments
-            (r'^\s*#\s.*$', Comment),
+            (r'\s*#.*$', Comment),
 
             # Strings
             (r'"', String.Double, 'string'),
