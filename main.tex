@@ -462,7 +462,59 @@ To send a message to the player who executed the script, you can simply use \tex
 @player Hello World!
 \end{msccode}
 
-All the text that follows ``\texttt{@player }'' will be sent to the player who executes the script when this line runs. Before the text is sent, however, it is formatted. Formatting options greatly enhance the expression capabilities of scripts. 
+All the text that follows ``\texttt{@player }'' will be sent to the player who executes the script when this line runs. Before the text is sent, however, it is formatted. Formatting options greatly enhance the expression capabilities of scripts. Minecraft has two formatting features: text style and text color. Text style is often referred to as "formatting," which can be confusing. Style options include bold, strikethrough, italics, underlined, and obfuscated. There are 16 built-in color choices, but you can also use any arbitrary hex code.
+
+Minecraft has used the special character \text{\S} to delimit formatting codes, but it is an inconvenient symbol to type, so you can use \texttt{\&} instead. To modify text formatting, prepend the text with \texttt{\&<code>}. You can change the style and color simultaneously by putting both codes in front of the text, but keep in mind that the color code will reset the formatting code, so you should type the color code first. To reset the formatting, you can use \texttt{\&r}. The following table will list all available formatting options. These will look a little different in game since the font is different, and the background color will be different.
+
+\sethlcolor{mcgray}
+
+\begin{tablebox}[Formatting codes]
+    \rowcolors{2}{rowgray}{}
+    \begin{tabularx}{\textwidth}{@{} L{1.0cm} L{2.5cm} L{2.5cm} X @{} }
+    \hiderowcolors
+    \textbf{Code} & \textbf{Name} & \textbf{Hex} & \textbf{Example}\\
+    \showrowcolors
+    \midrule
+    \endfirsthead
+    \textbf{Code} & \textbf{Name} & \textbf{Hex} & \textbf{Example}\\
+    \midrule
+    \endhead
+    \texttt{\&0} & black & \texttt{\#000000} & \textcolor{mcblack}{example} \\
+    \texttt{\&1} & dark\_blue & \texttt{\#0000AA} & \textcolor{mcdarkblue}{example} \\
+    \texttt{\&2} & dark\_green & \texttt{\#00AA00} & \textcolor{mcdarkgreen}{example} \\
+    \texttt{\&3} & dark\_aqua & \texttt{\#00AAAA} & \textcolor{mcdarkaqua}{example} \\
+    \texttt{\&4} & dark\_red & \texttt{\#AA0000} & \textcolor{mcdarkred}{example} \\
+    \texttt{\&5} & dark\_purple & \texttt{\#AA00AA} & \textcolor{mcdarkpurple}{example} \\
+    \texttt{\&6} & gold & \texttt{\#FFAA00} & \textcolor{mcgold}{example} \\
+    \texttt{\&7} & gray & \texttt{\#AAAAAA} & \textcolor{mcgray}{example} \\
+    \texttt{\&8} & dark\_gray & \texttt{\#555555} & \textcolor{mcdarkgray}{example} \\
+    \texttt{\&9} & blue & \texttt{\#5555FF} & \textcolor{mcblue}{example} \\
+    \texttt{\&a} & green & \texttt{\#55FF55} & \textcolor{mcgreen}{example} \\
+    \texttt{\&b} & aqua & \texttt{\#55FFFF} & \textcolor{mcaqua}{example} \\
+    \texttt{\&c} & red & \texttt{\#FF5555} & \textcolor{mcred}{example} \\
+    \texttt{\&d} & light\_purple & \texttt{\#FF55FF} & \textcolor{mclightpurple}{example} \\
+    \texttt{\&e} & yellow & \texttt{\#FFFF55} & \textcolor{mcyellow}{example} \\
+    \texttt{\&f} & white & \texttt{\#FFFFFF} & \textcolor{mcwhite}{\hl{example}} \\
+    \texttt{\&k} & obfuscated &  & \textcolor{mcdarkblue}{} \\
+    \texttt{\&l} & bold &  & \textbf{example} \\
+    \texttt{\&m} & strikethrough &  & \st{example} \\
+    \texttt{\&n} & underline &  & \underline{example} \\
+    \texttt{\&o} & italic &  & \textit{example} \\
+    \end{tabularx}
+\end{tablebox}
+
+Here is a simple example. Try running this script in chat to see the output.
+
+\begin{msccode}{Formatting Example}
+@player &cThis text will be red.
+@player &a&lThis text will be green and bold.
+@player &oThis text will be italicized.
+@player &5This text starts dark purple, &rbut &6the rest of it is gold.
+\end{msccode}
+
+\begin{thinkbox}
+
+\end{thinkbox}
 
 \section{Delay}
 \blindtext
